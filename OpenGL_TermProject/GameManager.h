@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Globals.h"
+#include "Shader.h"
+#include "Camera.h"
+#include "Light.h"
 
 #define SCREEN_WIDTH  800
 #define SCREEN_HEIGHT 800
@@ -22,5 +24,7 @@ public:
 	void Render();
 
 private:
-
+	SHADER Shader;
+	CAMERA Camera;
+	LIGHT Light;
 };

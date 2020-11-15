@@ -70,6 +70,7 @@ int main(int argc, char** argv) {
 	glutMotionFunc(MouseMotion);
 	glutPassiveMotionFunc(MouseMotion);
 	
+	GameManger.Init();
 
 	glutMainLoop();
 }

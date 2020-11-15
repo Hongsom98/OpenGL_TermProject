@@ -143,12 +143,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GLUTmain.cpp" />
+    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Globals.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="Shader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

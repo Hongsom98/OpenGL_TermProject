@@ -1,7 +1,7 @@
 #include "GameManager.h"
 
 void GameManager::Init() {
-
+	Shader.Load();
 }
 
 void GameManager::ReadKeyboard(unsigned char key, int x, int y, bool press) {
