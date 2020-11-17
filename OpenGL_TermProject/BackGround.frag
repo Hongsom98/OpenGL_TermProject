@@ -8,9 +8,9 @@ out vec4 FragColor;
 uniform vec3 lightPos;
 uniform vec3 lightColor;
 uniform vec3 objectColor;
-
 uniform vec3 viewPos;
 
+uniform float Alpha; // 알파블렌딩을 하기 위하여 필요한 Alpha값
 
 void main ()
 {
@@ -30,6 +30,6 @@ void main ()
 	
 	vec3 result = (ambient + diffuse + specular) * objectColor; //--- 최종 조명 설정된 픽셀 색상: (주변+산란반사+거울반사조명)*객체 색상
 	
-	FragColor = vec4 (result, 1.0); // --- 픽셀 색을 출력
+	FragColor = vec4 (result, Alpha); // --- 픽셀 색을 출력
 }
 
