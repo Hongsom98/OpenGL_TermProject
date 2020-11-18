@@ -3,6 +3,7 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "Light.h"
+#include "Player.h"
 
 #define SCREEN_WIDTH  800
 #define SCREEN_HEIGHT 800
@@ -27,4 +28,5 @@ private:
 	SHADER Shader;
 	CAMERA Camera;
 	LIGHT Light;
+	PLAYER Player;
 };

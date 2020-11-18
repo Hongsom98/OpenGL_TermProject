@@ -59,7 +59,6 @@ int main(int argc, char** argv) {
 	}
 	else std::cout << "GLEW Initialized\n";
 
-
 	glutDisplayFunc(Render);
 	glutReshapeFunc(Reshape);
 	glutKeyboardFunc(Keyboard);
@@ -70,6 +69,9 @@ int main(int argc, char** argv) {
 	glutMotionFunc(MouseMotion);
 	glutPassiveMotionFunc(MouseMotion);
 	
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
+
 	GameManger.Init();
 
 	glutMainLoop();
