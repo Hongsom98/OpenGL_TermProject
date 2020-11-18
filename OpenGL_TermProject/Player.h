@@ -18,8 +18,8 @@ public:
 
 	void ReadObj();
 
-	void Render(SHADER* shader);
-	void DrawCube(int V1, int V2, int V3, SHADER* shader);
+	void Render(SHADER& shader);
+	void DrawCube(int V1, int V2, int V3, SHADER& shader);
 
 	void HandleEvents(unsigned char key, bool press);
 

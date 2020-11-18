@@ -4,16 +4,16 @@ void GameManager::Init() {
 	Shader.Load();
 	Player.Load();
 
-	Light.SetLight(&Shader, PROGRAM_BACKGROUND, &Camera);
-	Light.SetLight(&Shader, PROGRAM_TILE, &Camera);
+	Light.SetLight(Shader, PROGRAM_BACKGROUND, Camera);
+	Light.SetLight(Shader, PROGRAM_TILE, Camera);
 
-	Camera.SetViewTransform(&Shader, PROGRAM_PLAYER);
-	Camera.SetViewTransform(&Shader, PROGRAM_BACKGROUND);
-	Camera.SetViewTransform(&Shader, PROGRAM_TILE);
+	Camera.SetViewTransform(Shader, PROGRAM_PLAYER);
+	Camera.SetViewTransform(Shader, PROGRAM_BACKGROUND);
+	Camera.SetViewTransform(Shader, PROGRAM_TILE);
 
-	Camera.SetProjectionTransform(&Shader, PROGRAM_PLAYER);
-	Camera.SetProjectionTransform(&Shader, PROGRAM_BACKGROUND);
-	Camera.SetProjectionTransform(&Shader, PROGRAM_TILE);
+	Camera.SetProjectionTransform(Shader, PROGRAM_PLAYER);
+	Camera.SetProjectionTransform(Shader, PROGRAM_BACKGROUND);
+	Camera.SetProjectionTransform(Shader, PROGRAM_TILE);
 }
 
 void GameManager::ReadKeyboard(unsigned char key, int x, int y, bool press) {
@@ -40,7 +40,7 @@ void GameManager::Render() {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	Player.Render(&Shader);
+	Player.Render(Shader);
 	
 	glutSwapBuffers();
 }

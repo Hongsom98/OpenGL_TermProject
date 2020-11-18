@@ -9,9 +9,9 @@ public:
 
 	void Init();
 
-	void SetViewTransform(SHADER* Shader, int ProgramID);
+	void SetViewTransform(SHADER& Shader, int ProgramID);
 	
-	void SetProjectionTransform(SHADER* Shader, int ProgramID);
+	void SetProjectionTransform(SHADER& Shader, int ProgramID);
 
 	float GetCameraXPos() { return CameraPos.x; }
 

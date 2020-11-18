@@ -10,7 +10,7 @@ public:
 
 	void Init();
 
-	void SetLight(SHADER* Shader, int ProgramID, CAMERA* Camera);
+	void SetLight(SHADER& Shader, int ProgramID, CAMERA& Camera);
 
 private:
 	glm::vec3 LightPos;
