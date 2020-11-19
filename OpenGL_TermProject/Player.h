@@ -21,9 +21,8 @@ public:
 
 	void Render(SHADER& shader, CAMERA& camera);
 	void DrawCube(int V1, int V2, int V3, SHADER& shader);
-
 	void HandleEvents(unsigned char key, bool press);
-
+	
 private:
 	CUBE PlayerObj;
 	GLuint VAO, VBO;

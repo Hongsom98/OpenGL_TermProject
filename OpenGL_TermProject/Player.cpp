@@ -83,8 +83,10 @@ void PLAYER::DrawCube(int V1, int V2, int V3, SHADER& shader) {
 		Xrotate = glm::rotate(Xrotate, glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
 		glm::mat4 Zrotate(1.0f);
 		Zrotate = glm::rotate(Zrotate, glm::radians(PlayerRotate[1]), glm::vec3(0, 0, 1));
+		glm::mat4 Scale(1.0f);
+		Scale = glm::scale(Scale, glm::vec3(0.1f, 0.1f, 0.1f));
 		glm::mat4 result(1.0f);
-		result = Zrotate * Xrotate;
+		result = Zrotate * Xrotate * Scale;
 
 		unsigned int location = shader.GetLocation("Model", PROGRAM_PLAYER);
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(result));

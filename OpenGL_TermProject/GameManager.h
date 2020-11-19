@@ -4,6 +4,7 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Player.h"
+#include "Sound.h"
 
 #define SCREEN_WIDTH  800
 #define SCREEN_HEIGHT 800
