@@ -20,12 +20,12 @@ void GameManager::ReadKeyboard(unsigned char key, int x, int y, bool press) {
 	if(press)
 	switch (key)
 	{
-	case 'q':
-	case 'Q':
-		glutLeaveMainLoop();
-		break;
-	case 'w':
-		break;
+		case 'q':
+		case 'Q':
+			glutLeaveMainLoop();
+			break;
+		case 'w':
+			break;
 	
 	}
 }

@@ -2,9 +2,9 @@
 
 
 CAMERA::CAMERA() {
-	CameraPos.x = 2.0f;
-	CameraPos.y = 2.0f;
-	CameraPos.z = 2.0f;
+	CameraPos.x = 15.0f;
+	CameraPos.y = 15.0f;
+	CameraPos.z = 15.0f;
 
 	CameraDirection.x = 0.0f;
 	CameraDirection.y = 0.0f;
