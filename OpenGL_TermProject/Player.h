@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Shader.h"
+#include "Camera.h"
 
 enum CUBECOLOR { RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE };
 
@@ -18,7 +19,7 @@ public:
 
 	void ReadObj();
 
-	void Render(SHADER& shader);
+	void Render(SHADER& shader, CAMERA& camera);
 	void DrawCube(int V1, int V2, int V3, SHADER& shader);
 
 	void HandleEvents(unsigned char key, bool press);
@@ -26,5 +27,5 @@ public:
 private:
 	CUBE PlayerObj;
 	GLuint VAO, VBO;
-	float PlayerRotate[2]; // x, z
+	float PlayerRotate[2] = { 0 }; // x, z
 };

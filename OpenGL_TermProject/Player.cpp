@@ -60,7 +60,10 @@ void PLAYER::ReadObj() {
 	fclose(path);
 }
 
-void PLAYER::Render(SHADER& shader) {
+void PLAYER::Render(SHADER& shader, CAMERA& camera) {
+	camera.SetProjectionTransform(shader, PROGRAM_PLAYER);
+	camera.SetViewTransform(shader, PROGRAM_PLAYER);
+
 	for (int i = 0; i < PlayerObj.FaceIndex; ++i)
 		DrawCube(PlayerObj.Face[i].x - 1, PlayerObj.Face[i].y - 1, PlayerObj.Face[i].z - 1, shader);
 
@@ -76,9 +79,12 @@ void PLAYER::DrawCube(int V1, int V2, int V3, SHADER& shader) {
 
 	shader.Activate(PROGRAM_PLAYER);
 	{
-		glm::mat4 Xrotate = glm::rotate(Xrotate, glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
-		glm::mat4 Zrotate = glm::rotate(Zrotate, glm::radians(PlayerRotate[1]), glm::vec3(0, 0, 1));
-		glm::mat4 result = Zrotate * Xrotate;
+		glm::mat4 Xrotate(1.0f);
+		Xrotate = glm::rotate(Xrotate, glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
+		glm::mat4 Zrotate(1.0f);
+		Zrotate = glm::rotate(Zrotate, glm::radians(PlayerRotate[1]), glm::vec3(0, 0, 1));
+		glm::mat4 result(1.0f);
+		result = Zrotate * Xrotate;
 
 		unsigned int location = shader.GetLocation("Model", PROGRAM_PLAYER);
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(result));
