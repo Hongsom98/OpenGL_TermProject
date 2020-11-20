@@ -182,74 +182,79 @@ void PLAYER::DrawCube(int V1, int V2, int V3, int U1, int U2, int U3, SHADER& sh
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
-void PLAYER::SetPlayerRotateX(float v)
+void PLAYER::PlayerMoveX(float v)
 {
+	if (v < 0)
+	{
+		PlayerRotate[0] = v;
+		float x = result[3][0];
+		float y = result[3][1];
+		float z = result[3][2];
 
-	PlayerRotate[0] = v;
-	float x = result[3][0];
-	float y = result[3][1];
-	float z = result[3][2];
+		glm::mat4 XTrans = glm::translate(glm::mat4(1.0f), glm::vec3(-x, 1, 1 - z));
 
-	glm::mat4 XTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(-x, 1, 1 - z));
+		glm::mat4 Xrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
 
-	glm::mat4 Xrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
+		glm::mat4 XTransBack = glm::translate(glm::mat4(1.0f), glm::vec3(x, -1, -1 + z));
 
-	glm::mat4 XTrans = glm::translate(glm::mat4(1.0f), glm::vec3(x, -1, -1 + z));
+		result = XTransBack * Xrotate * XTrans * result; // 이동 후 회전하여 축을 옮긴 뒤, 다시 이동시키는거
+	}
+	else
+	{
+		PlayerRotate[0] = v;
+		float x = result[3][0];
+		float y = result[3][1];
+		float z = result[3][2];
 
-	result = XTrans * Xrotate * XTrans1 * result;
-	std::cout << result[3][0] << " , " << result[3][1] << " , " << result[3][2] << /*std::endl << glm::sin(v/180) <<*/ std::endl;
+		glm::mat4 XTrans = glm::translate(glm::mat4(1.0f), glm::vec3(-x, 1, -1 - z));
+
+		glm::mat4 Xrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
+
+		glm::mat4 XTransBack = glm::translate(glm::mat4(1.0f), glm::vec3(x, -1, 1 + z));
+
+		result = XTransBack * Xrotate * XTrans * result;
+		
+	}
+	std::cout << result[3][0] << " , " << result[3][1] << " , " << result[3][2] << std::endl;
 }
 
-void PLAYER::SetPlayerRotateZ(float v)
+void PLAYER::PlayerMoveZ(float v)
 {
-	PlayerRotate[1] = v;
+	if (v > 0)
+	{
+		PlayerRotate[1] = v;
+		
+		float x = result[3][0];
+		float y = result[3][1];
+		float z = result[3][2];
 	
-	float x = result[3][0];
-	float y = result[3][1];
-	float z = result[3][2];
+		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(1-x, 1, - z));
+	
+		glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[1]), glm::vec3(0, 0, 1));
+	
+		glm::mat4 ZTransBack = glm::translate(glm::mat4(1.0f), glm::vec3(-1+x, -1, + z));
+	
+		result = ZTransBack * Zrotate * ZTrans * result;
+		
 
-	glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(1-x, 1, - z));
+	}
+	else
+	{
+		PlayerRotate[1] = v;
 
-	glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[1]), glm::vec3(0, 0, 1));
+		float x = result[3][0];
+		float y = result[3][1];
+		float z = result[3][2];
 
-	glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(-1+x, -1, + z));
+		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(-1 - x, 1, z));
 
-	result = ZTrans * Zrotate * ZTrans1 * result;
+		glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[1]), glm::vec3(0, 0, 1));
+
+		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(1 + x, -1, -z));
+
+		result = ZTrans * Zrotate * ZTrans1 * result;
+	}
 	std::cout << result[3][0] << " , " << result[3][1] << " , " << result[3][2] << std::endl;
-}
-
-void PLAYER::SetPlayerRotateMX(float v)
-{
-	PlayerRotate[0] = v;
-	float x = result[3][0];
-	float y = result[3][1];
-	float z = result[3][2];
-
-	glm::mat4 XTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(-x, 1, -1 - z));
-
-	glm::mat4 Xrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
-
-	glm::mat4 XTrans = glm::translate(glm::mat4(1.0f), glm::vec3(x, -1, 1 + z));
-
-	result = XTrans * Xrotate * XTrans1 * result;
-	std::cout << result[3][0] << " , " << result[3][1] << " , " << result[3][2] << std::endl;
-}
-
-void PLAYER::SetPlayerRotateMZ(float v)
-{
-	PlayerRotate[1] = v;
-
-	float x = result[3][0];
-	float y = result[3][1];
-	float z = result[3][2];
-
-	glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(-1-x, 1, z));
-
-	glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[1]), glm::vec3(0, 0, 1));
-
-	glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(1+ x, -1, -z));
-
-	result = ZTrans * Zrotate * ZTrans1 * result;
 }
 
 glm::mat4 PLAYER::SetSubMat() {
@@ -267,24 +272,28 @@ void PLAYER::HandleEvents(unsigned char key, bool press) {
 			case 'w':
 				if (PlayerState == STAY) {
 					PlayerState = MOVEFORWARD;
+					PlayerMoveX(-30.f);
 					TargetRotate[0] = PlayerRotate[0] - 90;
 				}
 				break;
 			case 's':
 				if (PlayerState == STAY) {
 					PlayerState = MOVEBACK;
+					PlayerMoveX(30.f);
 					TargetRotate[0] = PlayerRotate[0] + 90;
 				}
 				break;
 			case 'a':
 				if (PlayerState == STAY) {
 					PlayerState = MOVELEFT;
+					PlayerMoveZ(30.f);
 					TargetRotate[1] = PlayerRotate[1] + 90;
 				}
 				break;
 			case 'd':
 				if (PlayerState == STAY) {
 					PlayerState = MOVERIGHT;
+					PlayerMoveZ(-30.f);
 					TargetRotate[1] = PlayerRotate[1] - 90;
 				}
 				break;

@@ -38,10 +38,9 @@ public:
 	glm::mat4 SetParentMat();
 	glm::mat4 SetSubMat();
 	void HandleEvents(unsigned char key, bool press);
-	void SetPlayerRotateX(float);
-	void SetPlayerRotateMX(float);
-	void SetPlayerRotateZ(float);
-	void SetPlayerRotateMZ(float);
+	void PlayerMoveX(float);
+	void PlayerMoveZ(float);
+
 	void GetPlayerKey(int key);
 	void Update();
 private:
