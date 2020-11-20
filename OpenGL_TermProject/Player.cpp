@@ -153,8 +153,33 @@ void PLAYER::DrawCube(int V1, int V2, int V3, int U1, int U2, int U3, SHADER& sh
 		Xrotate = glm::rotate(Xrotate, glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
 		glm::mat4 Zrotate(1.0f);
 		Zrotate = glm::rotate(Zrotate, glm::radians(PlayerRotate[1]), glm::vec3(0, 0, 1));
+
+		glm::mat4 XTrans(1.0f);
+		glm::mat4 XTrans1(1.0f);
+
+		glm::mat4 ZTrans(1.0f);
+		ZTrans = glm::translate(ZTrans, glm::vec3(1, -1.3f, 0));
+		glm::mat4 ZTrans1(1.0f);
+		ZTrans1 = glm::translate(ZTrans1, glm::vec3(-1, 1.3f, 0));
+
 		glm::mat4 result(1.0f);
-		result = Zrotate * Xrotate;
+		switch (CubeAxis)
+		{
+		case 'w':
+			XTrans = glm::translate(XTrans, glm::vec3(0, -1.3f, 1));
+			XTrans1 = glm::translate(XTrans1, glm::vec3(0, 1.3f, -1));
+			break;
+		case 'd':
+			
+			break;
+		case 's':
+			
+			break;
+		case 'a':
+			
+			break;
+		}
+		result = ZTrans * Zrotate * ZTrans1 * XTrans * Xrotate * XTrans1;
 
 		unsigned int location = shader.GetLocation("Model", PROGRAM_PLAYER);
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(result));
@@ -180,6 +205,23 @@ void PLAYER::DrawCube(int V1, int V2, int V3, int U1, int U2, int U3, SHADER& sh
 	}
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
+}
+
+void PLAYER::SetPlayerRotateX(float x)
+{
+	PlayerRotate[0] += x;
+	if (PlayerRotate[0] >= 360) PlayerRotate[0] -= 360;
+}
+
+void PLAYER::SetPlayerRotateZ(float z)
+{
+	PlayerRotate[1] += z;
+	if (PlayerRotate[1] >= 360) PlayerRotate[1] -= 360;
+}
+
+void PLAYER::GetPlayerKey(int key)
+{
+	CubeAxis = key;
 }
 
 void PLAYER::HandleEvents(unsigned char key, bool press) {

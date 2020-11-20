@@ -25,8 +25,21 @@ void GameManager::ReadKeyboard(unsigned char key, int x, int y, bool press) {
 			glutLeaveMainLoop();
 			break;
 		case 'w':
+			Player.SetPlayerRotateX(90.0f);
+			Player.GetPlayerKey('w');
 			break;
-	
+		case 's':
+			Player.SetPlayerRotateX(-90.0f);
+			Player.GetPlayerKey('s');
+			break;
+		case 'a':
+			Player.SetPlayerRotateZ(90.0f);
+			Player.GetPlayerKey('a');
+			break;
+		case 'd':
+			Player.SetPlayerRotateZ(-90.0f);
+			Player.GetPlayerKey('d');
+			break;
 	}
 }
 

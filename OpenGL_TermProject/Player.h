@@ -26,10 +26,13 @@ public:
 	void Render(SHADER& shader, CAMERA& camera);
 	void DrawCube(int V1, int V2, int V3, int U1, int U2, int U3, SHADER& shader);
 	void HandleEvents(unsigned char key, bool press);
-	
+	void SetPlayerRotateX(float);
+	void SetPlayerRotateZ(float);
+	void GetPlayerKey(int key);
 private:
 	CUBE PlayerObj;
 	GLuint VAO, VBO[2];
 	GLuint Texture;
 	float PlayerRotate[2] = { 0 }; // x, z
+	int CubeAxis=0;
 };
