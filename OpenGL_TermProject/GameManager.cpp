@@ -63,3 +63,7 @@ void GameManager::Render() {
 	
 	glutSwapBuffers();
 }
+
+void GameManager::Update() {
+	Player.Update();
+}
