@@ -1,41 +1,44 @@
 
 #include "GameManager.h"
 
-
-GameManager GameManger;
-
 void Reshape(int w, int h) {
-	GameManger.Reshape(w, h);
+	GameManager::Instance()->Reshape(w, h);
 }
 
 void Render() {
-	GameManger.Render();
+	GameManager::Instance()->Render();
 }
 
 void Keyboard(unsigned char key, int x, int y) {
-	GameManger.ReadKeyboard(key, x, y, true);
+	GameManager::Instance()->ReadKeyboard(key, x, y, true);
 }
 
 void KeyboardUp(unsigned char key, int x, int y) {
-	GameManger.ReadKeyboard(key, x, y, false);
+	GameManager::Instance()->ReadKeyboard(key, x, y, false);
 }
 
 void SpecialKeyboard(int key, int x, int y) {
-	GameManger.ReadSpecialKeyboard(key, x, y, true);
+	GameManager::Instance()->ReadSpecialKeyboard(key, x, y, true);
 }
 
 void SpecialKeyboardUp(int key, int x, int y) {
-	GameManger.ReadSpecialKeyboard(key, x, y, false);
+	GameManager::Instance()->ReadSpecialKeyboard(key, x, y, false);
 }
 
 void Mouse(int button, int state, int x, int y) {
-	GameManger.ReadMouse(button, state, x, y);
+	GameManager::Instance()->ReadMouse(button, state, x, y);
 }
 
 void MouseMotion(int x, int y) {
-	GameManger.ReadMouseMotion(x, y);
+	GameManager::Instance()->ReadMouseMotion(x, y);
 }
 
+void Update(int val) {
+	GameManager::Instance()->Update();
+
+	glutPostRedisplay();
+	glutTimerFunc(50, Update, 0);
+}
 
 int main(int argc, char** argv) {
 	glutInit(&argc, argv);
@@ -68,11 +71,12 @@ int main(int argc, char** argv) {
 	glutMouseFunc(Mouse);
 	glutMotionFunc(MouseMotion);
 	glutPassiveMotionFunc(MouseMotion);
+	glutTimerFunc(50, Update, 0);
 	
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
 
-	GameManger.Init();
+	GameManager::Instance()->Init();
 
 	glutMainLoop();
 }

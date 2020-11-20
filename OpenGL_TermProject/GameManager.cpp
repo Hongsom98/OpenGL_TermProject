@@ -18,29 +18,19 @@ void GameManager::Init() {
 
 void GameManager::ReadKeyboard(unsigned char key, int x, int y, bool press) {
 	if(press)
-	switch (key)
-	{
-		case 'q':
-		case 'Q':
-			glutLeaveMainLoop();
-			break;
-		case 'w':
-			Player.SetPlayerRotateX(90.0f);
-			Player.GetPlayerKey('w');
-			break;
-		case 's':
-			Player.SetPlayerRotateX(-90.0f);
-			Player.GetPlayerKey('s');
-			break;
-		case 'a':
-			Player.SetPlayerRotateZ(90.0f);
-			Player.GetPlayerKey('a');
-			break;
-		case 'd':
-			Player.SetPlayerRotateZ(-90.0f);
-			Player.GetPlayerKey('d');
-			break;
-	}
+		switch (key)
+		{
+			case 'q':
+			case 'Q':
+				glutLeaveMainLoop();
+				break;
+			case 'w':
+			case 's':
+			case 'a':
+			case 'd':
+				Player.HandleEvents(key, press);
+				break;
+		}
 }
 
 void GameManager::ReadSpecialKeyboard(unsigned char key, int x, int y, bool press) {
@@ -66,4 +56,8 @@ void GameManager::Render() {
 	Player.Render(Shader, Camera);
 	
 	glutSwapBuffers();
+}
+
+void GameManager::Update() {
+	Player.Update();
 }

@@ -11,3 +11,4 @@
 #include "gtc/matrix_transform.hpp"
 #pragma comment(lib, "freeglut.lib")
 #pragma comment(lib, "glew32.lib")
+#pragma warning(disable: 26812)

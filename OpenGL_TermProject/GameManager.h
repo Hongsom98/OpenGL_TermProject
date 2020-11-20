@@ -25,9 +25,20 @@ public:
 
 	void Render();
 
+	void Update();
+
 private:
 	SHADER Shader;
 	CAMERA Camera;
 	LIGHT Light;
 	PLAYER Player;
+
+public:
+	static GameManager* Instance() {
+		static GameManager* GameManagerInstance = nullptr;
+		if (GameManagerInstance == nullptr)
+			GameManagerInstance = new GameManager;
+
+		return GameManagerInstance;
+	}
 };

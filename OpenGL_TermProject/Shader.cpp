@@ -51,7 +51,7 @@ void SHADER::InitShader() {
 	}
 }
 
-void SHADER:: MakeVertexShader(int ProgramID) {
+void SHADER::MakeVertexShader(int ProgramID) {
 	switch (ProgramID) {
 	case PROGRAM_PLAYER:
 		vertexsource = filetobuf("Player.vert");
