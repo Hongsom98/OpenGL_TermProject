@@ -149,40 +149,13 @@ void PLAYER::DrawCube(int V1, int V2, int V3, int U1, int U2, int U3, SHADER& sh
 
 	shader.Activate(PROGRAM_PLAYER);
 	{
-		glm::mat4 Xrotate(1.0f);
-		Xrotate = glm::rotate(Xrotate, glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
-		glm::mat4 Zrotate(1.0f);
-		Zrotate = glm::rotate(Zrotate, glm::radians(PlayerRotate[1]), glm::vec3(0, 0, 1));
 
-		glm::mat4 XTrans(1.0f);
-		glm::mat4 XTrans1(1.0f);
 
-		glm::mat4 ZTrans(1.0f);
-		ZTrans = glm::translate(ZTrans, glm::vec3(1, -1.3f, 0));
-		glm::mat4 ZTrans1(1.0f);
-		ZTrans1 = glm::translate(ZTrans1, glm::vec3(-1, 1.3f, 0));
 
-		glm::mat4 result(1.0f);
-		switch (CubeAxis)
-		{
-		case 'w':
-			XTrans = glm::translate(XTrans, glm::vec3(0, -1.3f, 1));
-			XTrans1 = glm::translate(XTrans1, glm::vec3(0, 1.3f, -1));
-			break;
-		case 'd':
-			
-			break;
-		case 's':
-			
-			break;
-		case 'a':
-			
-			break;
-		}
-		result = ZTrans * Zrotate * ZTrans1 * XTrans * Xrotate * XTrans1;
 
 		unsigned int location = shader.GetLocation("Model", PROGRAM_PLAYER);
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(result));
+		
 	}
 
 	{
@@ -207,21 +180,79 @@ void PLAYER::DrawCube(int V1, int V2, int V3, int U1, int U2, int U3, SHADER& sh
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
-void PLAYER::SetPlayerRotateX(float x)
+void PLAYER::SetPlayerRotateX(float v)
 {
-	PlayerRotate[0] += x;
-	if (PlayerRotate[0] >= 360) PlayerRotate[0] -= 360;
+
+	PlayerRotate[0] = v;
+	float x = result[3][0];
+	float y = result[3][1];
+	float z = result[3][2];
+
+	glm::mat4 XTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(-x, 1, 1 - z));
+
+	glm::mat4 Xrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
+
+	glm::mat4 XTrans = glm::translate(glm::mat4(1.0f), glm::vec3(x, -1, -1 + z));
+
+	result = XTrans * Xrotate * XTrans1 * result;
+	std::cout << result[3][0] << " , " << result[3][1] << " , " << result[3][2] << /*std::endl << glm::sin(v/180) <<*/ std::endl;
 }
 
-void PLAYER::SetPlayerRotateZ(float z)
+void PLAYER::SetPlayerRotateZ(float v)
 {
-	PlayerRotate[1] += z;
-	if (PlayerRotate[1] >= 360) PlayerRotate[1] -= 360;
+	PlayerRotate[1] = v;
+	
+	float x = result[3][0];
+	float y = result[3][1];
+	float z = result[3][2];
+
+	glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(1-x, 1, - z));
+
+	glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[1]), glm::vec3(0, 0, 1));
+
+	glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(-1+x, -1, + z));
+
+	result = ZTrans * Zrotate * ZTrans1 * result;
+	std::cout << result[3][0] << " , " << result[3][1] << " , " << result[3][2] << std::endl;
+}
+
+void PLAYER::SetPlayerRotateMX(float v)
+{
+	PlayerRotate[0] = v;
+	float x = result[3][0];
+	float y = result[3][1];
+	float z = result[3][2];
+
+	glm::mat4 XTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(-x, 1, -1 - z));
+
+	glm::mat4 Xrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
+
+	glm::mat4 XTrans = glm::translate(glm::mat4(1.0f), glm::vec3(x, -1, 1 + z));
+
+	result = XTrans * Xrotate * XTrans1 * result;
+	std::cout << result[3][0] << " , " << result[3][1] << " , " << result[3][2] << std::endl;
+}
+
+void PLAYER::SetPlayerRotateMZ(float v)
+{
+	PlayerRotate[1] = v;
+
+	float x = result[3][0];
+	float y = result[3][1];
+	float z = result[3][2];
+
+	glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(-1-x, 1, z));
+
+	glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[1]), glm::vec3(0, 0, 1));
+
+	glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(1+ x, -1, -z));
+
+	result = ZTrans * Zrotate * ZTrans1 * result;
 }
 
 void PLAYER::GetPlayerKey(int key)
 {
-	CubeAxis = key;
+	CubeAxis += key;
 }
 
 void PLAYER::HandleEvents(unsigned char key, bool press) {

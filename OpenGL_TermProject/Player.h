@@ -18,6 +18,11 @@ struct CUBE {
 class PLAYER
 {
 public:
+	PLAYER()
+	{
+		result = glm::mat4(1.0f);
+	}
+
 	void Load();
 
 	void ReadObj();
@@ -27,7 +32,9 @@ public:
 	void DrawCube(int V1, int V2, int V3, int U1, int U2, int U3, SHADER& shader);
 	void HandleEvents(unsigned char key, bool press);
 	void SetPlayerRotateX(float);
+	void SetPlayerRotateMX(float);
 	void SetPlayerRotateZ(float);
+	void SetPlayerRotateMZ(float);
 	void GetPlayerKey(int key);
 private:
 	CUBE PlayerObj;
@@ -35,4 +42,6 @@ private:
 	GLuint Texture;
 	float PlayerRotate[2] = { 0 }; // x, z
 	int CubeAxis=0;
+
+	glm::mat4 result;
 };
