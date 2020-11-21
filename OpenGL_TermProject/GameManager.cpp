@@ -24,17 +24,10 @@ void GameManager::ReadKeyboard(unsigned char key, int x, int y, bool press) {
 		case 'Q':
 			glutLeaveMainLoop();
 			break;
-		case 's':
-			//Player.SetPlayerRotateMX(90.0f);
-			//break;
 		case 'w':
-			//Player.SetPlayerRotateX(-90.0f);
-			//break;
+		case 's':
 		case 'a':
-			//Player.SetPlayerRotateZ(90.0f);
-			//break;
 		case 'd':
-			//Player.SetPlayerRotateMZ(-90.0f);
 			Player.HandleEvents(key, press);
 			break;
 	}
