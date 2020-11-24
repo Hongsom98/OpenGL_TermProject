@@ -52,6 +52,9 @@ private:
 	glm::vec3 AxisForMove[4]; // ╩С, го, аб, ©Л
 	CUBESTATE PlayerState = STAY;
 	int CubeAxis=0;
-
+	float A = 0.f;
+	float x = 0.f;
+	float y = 0.f;
+	float z = 0.f;
 	glm::mat4 result;
 };

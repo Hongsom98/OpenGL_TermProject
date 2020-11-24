@@ -187,33 +187,54 @@ void PLAYER::PlayerMoveX(float v)
 	if (v < 0)
 	{
 		PlayerRotate[0] = v;
-		float x = result[3][0];
+		A += v;
+		if (A <= -90.f)
+		{
+			z += 2.f;
+			A = 0.f;
+			//x += 2.f;
+		}
+
+		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(0.f + x, 1.f + y, 1.f + z));
+
+		glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
+
+		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(0.f - x, -1.f - y, -1.f - z));
+
+		
+		result = ZTrans * Zrotate * ZTrans1 * result;
+		/*float x = result[3][0];
 		float y = result[3][1];
 		float z = result[3][2];
-
-		glm::mat4 XTrans = glm::translate(glm::mat4(1.0f), glm::vec3(-x, 1, 1 - z));
+		std::cout << x << "," << y << "," << z;
+		glm::mat4 XTrans/*(1.0f); = glm::translate(glm::mat4(1.0f), glm::vec3(-x, -1, 1 - z));
 
 		glm::mat4 Xrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
 
-		glm::mat4 XTransBack = glm::translate(glm::mat4(1.0f), glm::vec3(x, -1, -1 + z));
+		glm::mat4 XTransBack/*(1.0f); = glm::translate(glm::mat4(1.0f), glm::vec3(x, 1, -1 + z));
 
-		result = XTransBack * Xrotate * XTrans * result; // 이동 후 회전하여 축을 옮긴 뒤, 다시 이동시키는거
+		result = XTransBack * Xrotate * XTrans * result; // 이동 후 회전하여 축을 옮긴 뒤, 다시 이동시키는거*/
 	}
 	else
 	{
 		PlayerRotate[0] = v;
-		float x = result[3][0];
-		float y = result[3][1];
-		float z = result[3][2];
+		A += v;
+		if (A >= 90.f)
+		{
+			z -= 2.f;
+			A = 0.f;
+			//x += 2.f;
+		}
 
-		glm::mat4 XTrans = glm::translate(glm::mat4(1.0f), glm::vec3(-x, 1, -1 - z));
+		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(0.f + x, 1.f + y, -1.f + z));
 
-		glm::mat4 Xrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
+		glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
 
-		glm::mat4 XTransBack = glm::translate(glm::mat4(1.0f), glm::vec3(x, -1, 1 + z));
+		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(0.f - x, -1.f - y, 1.f - z));
 
-		result = XTransBack * Xrotate * XTrans * result;
-		
+
+		result = ZTrans * Zrotate * ZTrans1 * result;
+	
 	}
 	std::cout << result[3][0] << " , " << result[3][1] << " , " << result[3][2] << std::endl;
 }
@@ -222,37 +243,51 @@ void PLAYER::PlayerMoveZ(float v)
 {
 	if (v > 0)
 	{
+
 		PlayerRotate[1] = v;
+		A += v;
+		if (A >= 90.f)
+		{
+			x += 2.f;
+			A = 0.f;
+			//x += 2.f;
+		}
 		
-		float x = result[3][0];
-		float y = result[3][1];
-		float z = result[3][2];
-	
-		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(1-x, 1, - z));
-	
+		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(1.f + x, 1.f + y, 0.f + z));
+
 		glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[1]), glm::vec3(0, 0, 1));
-	
-		glm::mat4 ZTransBack = glm::translate(glm::mat4(1.0f), glm::vec3(-1+x, -1, + z));
-	
-		result = ZTransBack * Zrotate * ZTrans * result;
+
+		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(-1.f - x, -1.f - y, 0.f - z));
+
+		//result[3][1] = 1.f;
+		result = ZTrans * Zrotate * ZTrans1 * result;
 		
 
 	}
 	else
 	{
 		PlayerRotate[1] = v;
+		A += v;
+		if (A <= -90.f)
+		{
+			x -= 2.f;
+			A = 0.f;
+			//x += 2.f;
+		}
+		//float x = result[3][0]; // result의 x값
+		//float y = result[3][1];
+		//float z = result[3][2]; // result의 z값 위치
 
-		float x = result[3][0];
-		float y = result[3][1];
-		float z = result[3][2];
-
-		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(-1 - x, 1, z));
+		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(-1.f + x, 1.f + y , 0.f+z));
 
 		glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[1]), glm::vec3(0, 0, 1));
 
-		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(1 + x, -1, -z));
+		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(1.f-x , -1.f-y, 0.f-z));
 
+		//result[3][1] = 1.f;
 		result = ZTrans * Zrotate * ZTrans1 * result;
+
+
 	}
 	std::cout << result[3][0] << " , " << result[3][1] << " , " << result[3][2] << std::endl;
 }
@@ -272,28 +307,28 @@ void PLAYER::HandleEvents(unsigned char key, bool press) {
 			case 'w':
 				if (PlayerState == STAY) {
 					PlayerState = MOVEFORWARD;
-					PlayerMoveX(-30.f);
+					//PlayerMoveX(-30.f);
 					TargetRotate[0] = PlayerRotate[0] - 90;
 				}
 				break;
 			case 's':
 				if (PlayerState == STAY) {
 					PlayerState = MOVEBACK;
-					PlayerMoveX(30.f);
+					//PlayerMoveX(30.f);
 					TargetRotate[0] = PlayerRotate[0] + 90;
 				}
 				break;
 			case 'a':
 				if (PlayerState == STAY) {
 					PlayerState = MOVELEFT;
-					PlayerMoveZ(30.f);
+					//PlayerMoveZ(30.f);
 					TargetRotate[1] = PlayerRotate[1] + 90;
 				}
 				break;
 			case 'd':
 				if (PlayerState == STAY) {
 					PlayerState = MOVERIGHT;
-					PlayerMoveZ(-30.f);
+					//PlayerMoveZ(-30.f);
 					TargetRotate[1] = PlayerRotate[1] - 90;
 				}
 				break;
