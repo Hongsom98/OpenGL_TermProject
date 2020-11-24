@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Globals.h"
+#define GET_SHADER SHADER::Instance()
 #pragma warning(disable:4996)
 
 #define TOTALPROGRAMS 3
@@ -28,4 +29,13 @@ private:
 	GLuint vertexshader, fragmentshader;
 	GLuint programs[TOTALPROGRAMS];
 	int CurrentProgramID;
+
+public:
+	static SHADER* Instance() {
+		static SHADER* ShaderInstance = nullptr;
+		if (ShaderInstance == nullptr)
+			ShaderInstance = new SHADER;
+
+		return ShaderInstance;
+	}
 };

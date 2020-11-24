@@ -129,16 +129,16 @@ GLuint PLAYER::loadBMP(const char* imagepath) {
 	return textureID;
 }
 
-void PLAYER::Render(SHADER& shader, CAMERA& camera) {
-	camera.SetProjectionTransform(shader, PROGRAM_PLAYER);
-	camera.SetViewTransform(shader, PROGRAM_PLAYER);
+void PLAYER::Render() {
+	GET_CAMERA->SetProjectionTransform(PROGRAM_PLAYER);
+	GET_CAMERA->SetViewTransform(PROGRAM_PLAYER);
 
 	
 	for (int i = 0; i < PlayerObj.FaceIndex; ++i)
-		DrawCube(PlayerObj.Face[i].x - 1, PlayerObj.Face[i].y - 1, PlayerObj.Face[i].z - 1, PlayerObj.UVDate[i].x - 1, PlayerObj.UVDate[i].y - 1, PlayerObj.UVDate[i].z - 1, shader);
+		DrawCube(PlayerObj.Face[i].x - 1, PlayerObj.Face[i].y - 1, PlayerObj.Face[i].z - 1, PlayerObj.UVDate[i].x - 1, PlayerObj.UVDate[i].y - 1, PlayerObj.UVDate[i].z - 1);
 }
 
-void PLAYER::DrawCube(int V1, int V2, int V3, int U1, int U2, int U3, SHADER& shader) {
+void PLAYER::DrawCube(int V1, int V2, int V3, int U1, int U2, int U3) {
 	GLfloat POS[3][3] = {
 		{PlayerObj.Vertex[V1].x, PlayerObj.Vertex[V1].y, PlayerObj.Vertex[V1].z},
 		{PlayerObj.Vertex[V2].x, PlayerObj.Vertex[V2].y, PlayerObj.Vertex[V2].z},
@@ -150,14 +150,10 @@ void PLAYER::DrawCube(int V1, int V2, int V3, int U1, int U2, int U3, SHADER& sh
 		{PlayerObj.UV[U3].x, PlayerObj.UV[U3].y}
 	};
 
-	shader.Activate(PROGRAM_PLAYER);
+	GET_SHADER->Activate(PROGRAM_PLAYER);
 	{
-
-
-
-		unsigned int location = shader.GetLocation("Model", PROGRAM_PLAYER);
+		unsigned int location = GET_SHADER->GetLocation("Model", PROGRAM_PLAYER);
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(result));
-		
 	}
 
 	{
@@ -290,15 +286,6 @@ void PLAYER::PlayerMoveZ(float v)
 
 	}
 	std::cout << result[3][0] << " , " << result[3][1] << " , " << result[3][2] << std::endl;
-}
-
-glm::mat4 PLAYER::SetSubMat() {
-	glm::mat4 result(1.0f);
-	return result;
-}
-glm::mat4 PLAYER::SetParentMat() {
-	glm::mat4 result(1.0f);
-	return result;
 }
 
 void PLAYER::HandleEvents(unsigned char key, bool press) {

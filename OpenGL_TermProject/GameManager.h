@@ -30,10 +30,6 @@ public:
 	void Update();
 
 private:
-	SHADER Shader;
-	CAMERA Camera;
-	LIGHT Light;
-	PLAYER Player;
 
 public:
 	static GameManager* Instance() {

@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Shader.h"
+#include "Globals.h"
+#define GET_CAMERA CAMERA::Instance()
 
 class CAMERA
 {
@@ -9,9 +10,9 @@ public:
 
 	void Init();
 
-	void SetViewTransform(SHADER& Shader, int ProgramID);
+	void SetViewTransform(int ProgramID);
 	
-	void SetProjectionTransform(SHADER& Shader, int ProgramID);
+	void SetProjectionTransform(int ProgramID);
 
 	float GetCameraXPos() { return CameraPos.x; }
 
@@ -21,4 +22,13 @@ public:
 private:
 	glm::vec3 CameraPos;
 	glm::vec3 CameraDirection;
+
+public:
+	static CAMERA* Instance() {
+		static CAMERA* CameraInstance = nullptr;
+		if (CameraInstance == nullptr)
+			CameraInstance = new CAMERA;
+
+		return CameraInstance;
+	}
 };

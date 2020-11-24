@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Shader.h"
-#include "Camera.h"
+#include "Globals.h"
 
 #define TIMER 100
 #define ROTATEPERFRAME 90 / 10
+#define GET_PLAYER PLAYER::Instance()
 
 enum CUBECOLOR { RED, ORANGE, YELLOW, GREEN, BLUE, PURPLE };
 enum CUBESTATE { STAY, MOVEFORWARD, MOVEBACK, MOVELEFT, MOVERIGHT};
@@ -23,8 +23,7 @@ struct CUBE {
 class PLAYER
 {
 public:
-	PLAYER()
-	{
+	PLAYER() {
 		result = glm::mat4(1.0f);
 	}
 
@@ -33,15 +32,12 @@ public:
 	void ReadObj();
 	GLuint loadBMP(const char* imagepath);
 
-	void Render(SHADER& shader, CAMERA& camera);
-	void DrawCube(int V1, int V2, int V3, int U1, int U2, int U3, SHADER& shader);
-	glm::mat4 SetParentMat();
-	glm::mat4 SetSubMat();
+	void Render();
+	void DrawCube(int V1, int V2, int V3, int U1, int U2, int U3);
 	void HandleEvents(unsigned char key, bool press);
 	void PlayerMoveX(float);
 	void PlayerMoveZ(float);
 
-	void GetPlayerKey(int key);
 	void Update();
 private:
 	CUBE PlayerObj;
@@ -57,4 +53,13 @@ private:
 	float y = 0.f;
 	float z = 0.f;
 	glm::mat4 result;
+
+public:
+	static PLAYER* Instance() {
+		static PLAYER* PlayeRInstance = nullptr;
+		if (PlayeRInstance == nullptr)
+			PlayeRInstance = new PLAYER;
+
+		return PlayeRInstance;
+	}
 };

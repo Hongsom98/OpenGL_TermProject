@@ -11,8 +11,13 @@
 #include "ext.hpp"
 #include "gtc/matrix_transform.hpp"
 #include "TimeManager.h"
-#include "SceneManager.h"
 #include "iScene.h"
+#include "Shader.h"
+#include "Camera.h"
+#include "Light.h"
+#include "SceneManager.h"
+
+#include "GameManager.h"
 #pragma comment(lib, "freeglut.lib")
 #pragma comment(lib, "glew32.lib")
 #pragma warning(disable: 26812)

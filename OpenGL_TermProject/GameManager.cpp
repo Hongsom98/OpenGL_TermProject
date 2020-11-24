@@ -1,45 +1,34 @@
 #include "GameManager.h"
 
 void GameManager::Init() {
-	Shader.Load();
-	Player.Load();
+	GET_SHADER->Load();
+	GET_PLAYER->Load();
 
-	Light.SetLight(Shader, PROGRAM_BACKGROUND, Camera);
-	Light.SetLight(Shader, PROGRAM_TILE, Camera);
+	GET_LIGHT->SetLight(PROGRAM_BACKGROUND);
+	GET_LIGHT->SetLight(PROGRAM_TILE);
 
-	Camera.SetViewTransform(Shader, PROGRAM_PLAYER);
-	Camera.SetViewTransform(Shader, PROGRAM_BACKGROUND);
-	Camera.SetViewTransform(Shader, PROGRAM_TILE);
+	GET_CAMERA->SetViewTransform(PROGRAM_PLAYER);
+	GET_CAMERA->SetViewTransform(PROGRAM_BACKGROUND);
+	GET_CAMERA->SetViewTransform(PROGRAM_TILE);
 
-	Camera.SetProjectionTransform(Shader, PROGRAM_PLAYER);
-	Camera.SetProjectionTransform(Shader, PROGRAM_BACKGROUND);
-	Camera.SetProjectionTransform(Shader, PROGRAM_TILE);
+	GET_CAMERA->SetProjectionTransform(PROGRAM_PLAYER);
+	GET_CAMERA->SetProjectionTransform(PROGRAM_BACKGROUND);
+	GET_CAMERA->SetProjectionTransform(PROGRAM_TILE);
 
 	GET_SCENEMANAGER->Init();
 }
 
 void GameManager::ReadKeyboard(unsigned char key, int x, int y, bool press) {
 	if(press)
-	switch (key)
-	{
-		case 'q':
-		case 'Q':
-			glutLeaveMainLoop();
-			break;
-		case 's':
-			//Player.SetPlayerRotateMX(90.0f);
-			//break;
-		case 'w':
-			//Player.SetPlayerRotateX(-90.0f);
-			//break;
-		case 'a':
-			//Player.SetPlayerRotateZ(90.0f);
-			//break;
-		case 'd':
-			//Player.SetPlayerRotateMZ(-90.0f);
-			Player.HandleEvents(key, press);
-			break;
-	}
+		switch (key)
+		{
+			case 'q':
+			case 'Q':
+				glutLeaveMainLoop();
+				break;
+			default:
+				GET_SCENEMANAGER->HandleEvents(key, press);
+		}
 }
 
 void GameManager::ReadSpecialKeyboard(int key, int x, int y, bool press) {

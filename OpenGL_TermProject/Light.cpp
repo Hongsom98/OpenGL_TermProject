@@ -14,14 +14,14 @@ void LIGHT::Init() {
 
 }
 
-void LIGHT::SetLight(SHADER& Shader, int ProgramID, CAMERA& Camera) {
+void LIGHT::SetLight(int ProgramID) {
 
-	int lightPosLocation = Shader.GetLocation("lightPos", ProgramID); 
+	int lightPosLocation = GET_SHADER->GetLocation("lightPos", ProgramID); 
 	glUniform3f(lightPosLocation, LightPos.x, LightPos.y, LightPos.z);
 
-	int lightColorLocation = Shader.GetLocation("lightColor", ProgramID);
+	int lightColorLocation = GET_SHADER->GetLocation("lightColor", ProgramID);
 	glUniform3f(lightColorLocation, LightCol.r, LightCol.g, LightCol.b);
 
-	int lightViewPosLocation = Shader.GetLocation("viewPos", ProgramID); 
-	glUniform3f(lightViewPosLocation, Camera.GetCameraXPos(), Camera.GetCameraYPos(), Camera.GetCameraZPos());
+	int lightViewPosLocation = GET_SHADER->GetLocation("viewPos", ProgramID);
+	glUniform3f(lightViewPosLocation, GET_CAMERA->GetCameraXPos(), GET_CAMERA->GetCameraYPos(), GET_CAMERA->GetCameraZPos());
 }
