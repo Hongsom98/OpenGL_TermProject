@@ -6,6 +6,7 @@
 #include "Player.h"
 #include "Sound.h"
 #include "SceneManager.h"
+#include "SceneManager.h"
 
 #define SCREEN_WIDTH  800
 #define SCREEN_HEIGHT 800
@@ -16,7 +17,7 @@ public:
 
 	void ReadKeyboard(unsigned char key, int x, int y, bool press);
 	
-	void ReadSpecialKeyboard(unsigned char key, int x, int y, bool press);
+	void ReadSpecialKeyboard(int key, int x, int y, bool press);
 	
 	void ReadMouse(int button, int state, int x, int y);
 	

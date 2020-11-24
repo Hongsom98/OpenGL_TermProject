@@ -15,6 +15,22 @@ void SCENEMANAGER::Init() {
 	CurScene = new SCENELOGO;
 }
 
+void SCENEMANAGER::HandleEvents(unsigned char key, bool press) {
+	if (!CurScene) return;
+	CurScene->HandleEvents(key, press);
+}
+
+void SCENEMANAGER::HandleEvents(int key, bool press) {
+	if (!CurScene) return;
+	CurScene->HandleEvents(key, press);
+}
+
+void SCENEMANAGER::HandleEvents(int button, int state, int x, int y) {
+	if (!CurScene) return;
+	CurScene->HandleEvents(button, state, x, y);
+}
+
+
 void SCENEMANAGER::Update()
 {
 	if (!CurScene) return;
@@ -41,10 +57,10 @@ void SCENEMANAGER::SwitchScene(SCENEMANAGER::e_SceneType _type)
 		CurScene = new SCENELOGO;
 		break;
 	case e_SceneType::Menu:
-		CurScene = new SceneMenu;
+		CurScene = new SCENEMENU;
 		break;
 	case e_SceneType::test:
-		CurScene = new test;
+		//CurScene = new test;
 		break;
 	}
 }

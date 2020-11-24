@@ -2,14 +2,12 @@
 
 SCENELOGO::SCENELOGO()
 {
-	mScene = new LogoObject(L"Logo", Vector(0, 0));
-	Aninum = 0; Delttime = 0;
 	GET_TIMEMANAGER->SetPreTime();
 }
 
 SCENELOGO::~SCENELOGO()
 {
-	delete mScene;
+
 }
 
 void SCENELOGO::Init()
@@ -17,22 +15,29 @@ void SCENELOGO::Init()
 
 }
 
+void SCENELOGO::HandleEvents(unsigned char key, bool press) 
+{
+	return;
+}
+
+void SCENELOGO::HandleEvents(int key, bool press)
+{
+	return;
+}
+
+void SCENELOGO::HandleEvents(int button, int state, int x, int y)
+{
+	return;
+}
+
 void SCENELOGO::Update()
 {
 	GET_TIMEMANAGER->SetCurTime();
-	Delttime += DELTATIME;
+	GET_TIMEMANAGER->CalDeltaTime();
+	if (DELTATIME > 2.0) GET_SCENEMANAGER->SwitchScene(SCENEMANAGER::e_SceneType::Menu);
 }
 
 void SCENELOGO::Render()
 {
-	if (Delttime < 2) {
-		Aninum++;
-		mScene->Render(Aninum % 8);
-	}
-	else GET_SCENEMANAGER->SwitchScene(SceneManager::e_SceneType::Menu);
-}
-
-void SCENELOGO::Destroy()
-{
-
+	
 }

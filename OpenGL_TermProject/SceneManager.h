@@ -2,8 +2,9 @@
 
 #include "iScene.h"
 #include "SceneLogo.h"
+#include "SceneMenu.h"
 
-#define GET_SCENEMANAGER SceneManager::Instance()
+#define GET_SCENEMANAGER SCENEMANAGER::Instance()
 
 class SCENEMANAGER
 {
@@ -19,15 +20,15 @@ public:
 	~SCENEMANAGER();
 	
 	void Init();
+	void HandleEvents(unsigned char key, bool press);
+	void HandleEvents(int key, bool press);
+	void HandleEvents(int button, int state, int x, int y);
 	void Update();
 	void Render();
 	void SwitchScene(e_SceneType _type);
 
 private:
 	iScene* CurScene = nullptr;
-	int PlayerMoney;
-	bool Shotready;
-	bool Waveready;
 public:
 	static SCENEMANAGER* Instance() {
 		static SCENEMANAGER* SceneManagerInstance = nullptr;

@@ -1,14 +1,14 @@
 #pragma once
 #include "Globals.h"
 
-class SCENELOGO :
+class SCENEMENU :
 	public iScene
 {
 private:
-	
+
 public:
-	SCENELOGO();
-	~SCENELOGO();
+	SCENEMENU();
+	~SCENEMENU();
 
 	void Init();
 	void HandleEvents(unsigned char key, bool press);
