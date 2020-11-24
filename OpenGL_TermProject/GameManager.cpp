@@ -14,6 +14,8 @@ void GameManager::Init() {
 	Camera.SetProjectionTransform(Shader, PROGRAM_PLAYER);
 	Camera.SetProjectionTransform(Shader, PROGRAM_BACKGROUND);
 	Camera.SetProjectionTransform(Shader, PROGRAM_TILE);
+
+	GET_SCENEMANAGER->Init();
 }
 
 void GameManager::ReadKeyboard(unsigned char key, int x, int y, bool press) {
@@ -25,31 +27,32 @@ void GameManager::ReadKeyboard(unsigned char key, int x, int y, bool press) {
 			glutLeaveMainLoop();
 			break;
 		case 's':
-			Player.PlayerMoveX(1.f);
-			break;
+			//Player.SetPlayerRotateMX(90.0f);
+			//break;
 		case 'w':
-			Player.PlayerMoveX(-1.f);
-			break;
+			//Player.SetPlayerRotateX(-90.0f);
+			//break;
 		case 'a':
-			Player.PlayerMoveZ(1.0f);
-			break;
+			//Player.SetPlayerRotateZ(90.0f);
+			//break;
 		case 'd':
-			Player.PlayerMoveZ(-1.0f);
-			//Player.HandleEvents(key, press);
+			//Player.SetPlayerRotateMZ(-90.0f);
+			Player.HandleEvents(key, press);
 			break;
 	}
 }
 
-void GameManager::ReadSpecialKeyboard(unsigned char key, int x, int y, bool press) {
-
+void GameManager::ReadSpecialKeyboard(int key, int x, int y, bool press) {
+	if (press)
+		GET_SCENEMANAGER->HandleEvents(key, press);
 }
 
 void GameManager::ReadMouse(int button, int state, int x, int y) {
-
+	GET_SCENEMANAGER->HandleEvents(button, state, x, y);
 }
 
 void GameManager::ReadMouseMotion(int x, int y) {
-
+	
 }
 
 void GameManager::Reshape(int w, int h) {
@@ -60,11 +63,11 @@ void GameManager::Render() {
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	Player.Render(Shader, Camera);
+	GET_SCENEMANAGER->Render();
 	
 	glutSwapBuffers();
 }
 
 void GameManager::Update() {
-	Player.Update();
+	GET_SCENEMANAGER->Update();
 }
