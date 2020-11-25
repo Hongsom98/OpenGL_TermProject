@@ -180,53 +180,40 @@ void PLAYER::DrawCube(int V1, int V2, int V3, int U1, int U2, int U3) {
 
 void PLAYER::PlayerMoveX(float v)
 {
-	if (v < 0)
+	if (v < 0) // keyboard W
 	{
 		PlayerRotate[0] = v;
-		A += v;
-		if (A <= -90.f)
+		RadStack += v;
+		if (RadStack <= -90.f)
 		{
-			z += 2.f;
-			A = 0.f;
-			//x += 2.f;
+			TransInfo.z += 2.f;
+			RadStack = 0.f;
 		}
 
-		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(0.f + x, 1.f + y, 1.f + z));
+		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(0.f + TransInfo.x, 1.f + TransInfo.y, 1.f + TransInfo.z));
 
 		glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
 
-		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(0.f - x, -1.f - y, -1.f - z));
+		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(0.f - TransInfo.x, -1.f - TransInfo.y, -1.f - TransInfo.z));
 
-		
 		result = ZTrans * Zrotate * ZTrans1 * result;
-		/*float x = result[3][0];
-		float y = result[3][1];
-		float z = result[3][2];
-		std::cout << x << "," << y << "," << z;
-		glm::mat4 XTrans/*(1.0f); = glm::translate(glm::mat4(1.0f), glm::vec3(-x, -1, 1 - z));
 
-		glm::mat4 Xrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
-
-		glm::mat4 XTransBack/*(1.0f); = glm::translate(glm::mat4(1.0f), glm::vec3(x, 1, -1 + z));
-
-		result = XTransBack * Xrotate * XTrans * result; // 이동 후 회전하여 축을 옮긴 뒤, 다시 이동시키는거*/
 	}
-	else
+	else //keyboard S
 	{
 		PlayerRotate[0] = v;
-		A += v;
-		if (A >= 90.f)
+		RadStack += v;
+		if (RadStack >= 90.f)
 		{
-			z -= 2.f;
-			A = 0.f;
-			//x += 2.f;
+			TransInfo.z -= 2.f;
+			RadStack = 0.f;
 		}
 
-		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(0.f + x, 1.f + y, -1.f + z));
+		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(0.f + TransInfo.x, 1.f + TransInfo.y, -1.f + TransInfo.z));
 
 		glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
 
-		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(0.f - x, -1.f - y, 1.f - z));
+		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(0.f - TransInfo.x, -1.f - TransInfo.y, 1.f - TransInfo.z));
 
 
 		result = ZTrans * Zrotate * ZTrans1 * result;
@@ -237,48 +224,44 @@ void PLAYER::PlayerMoveX(float v)
 
 void PLAYER::PlayerMoveZ(float v)
 {
-	if (v > 0)
+	if (v > 0) // keyboard A
 	{
 
 		PlayerRotate[1] = v;
-		A += v;
-		if (A >= 90.f)
+		RadStack += v;
+		if (RadStack >= 90.f)
 		{
-			x += 2.f;
-			A = 0.f;
-			//x += 2.f;
+			TransInfo.x += 2.f;
+			RadStack = 0.f;
 		}
 		
-		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(1.f + x, 1.f + y, 0.f + z));
+		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(1.f + TransInfo.x, 1.f + TransInfo.y, 0.f + TransInfo.z));
 
 		glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[1]), glm::vec3(0, 0, 1));
 
-		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(-1.f - x, -1.f - y, 0.f - z));
+		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(-1.f - TransInfo.x, -1.f - TransInfo.y, 0.f - TransInfo.z));
 
 		//result[3][1] = 1.f;
 		result = ZTrans * Zrotate * ZTrans1 * result;
 		
 
 	}
-	else
+	else // keyboard D
 	{
 		PlayerRotate[1] = v;
-		A += v;
-		if (A <= -90.f)
+		RadStack += v;
+		if (RadStack <= -90.f)
 		{
-			x -= 2.f;
-			A = 0.f;
-			//x += 2.f;
+			TransInfo.x -= 2.f;
+			RadStack = 0.f;
 		}
-		//float x = result[3][0]; // result의 x값
-		//float y = result[3][1];
-		//float z = result[3][2]; // result의 z값 위치
 
-		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(-1.f + x, 1.f + y , 0.f+z));
+
+		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(-1.f + TransInfo.x, 1.f + TransInfo.y , 0.f+ TransInfo.z));
 
 		glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[1]), glm::vec3(0, 0, 1));
 
-		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(1.f-x , -1.f-y, 0.f-z));
+		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(1.f- TransInfo.x , -1.f- TransInfo.y, 0.f- TransInfo.z));
 
 		//result[3][1] = 1.f;
 		result = ZTrans * Zrotate * ZTrans1 * result;
@@ -294,29 +277,26 @@ void PLAYER::HandleEvents(unsigned char key, bool press) {
 			case 'w':
 				if (PlayerState == STAY) {
 					PlayerState = MOVEFORWARD;
-					//PlayerMoveX(-30.f);
-					TargetRotate[0] = PlayerRotate[0] - 90;
+					TargetRotate[0] = -90.f;
 				}
 				break;
 			case 's':
 				if (PlayerState == STAY) {
 					PlayerState = MOVEBACK;
-					//PlayerMoveX(30.f);
-					TargetRotate[0] = PlayerRotate[0] + 90;
+					TargetRotate[0] = 90.f;
 				}
 				break;
 			case 'a':
 				if (PlayerState == STAY) {
 					PlayerState = MOVELEFT;
-					//PlayerMoveZ(30.f);
-					TargetRotate[1] = PlayerRotate[1] + 90;
+					TargetRotate[1] = 90.f;
 				}
 				break;
 			case 'd':
 				if (PlayerState == STAY) {
 					PlayerState = MOVERIGHT;
-					//PlayerMoveZ(-30.f);
-					TargetRotate[1] = PlayerRotate[1] - 90;
+					//TargetRotate[1] = PlayerRotate[1] - 90;
+					TargetRotate[1] = -90.f;
 				}
 				break;
 		}
@@ -327,27 +307,35 @@ void PLAYER::Update() {
 		case STAY:
 			break;
 		case MOVEFORWARD:
-			PlayerRotate[0] -= ROTATEPERFRAME;
-			if (PlayerRotate[0] <= TargetRotate[0]) {
-				PlayerRotate[0] = TargetRotate[0]; PlayerState = STAY;
+			//PlayerRotate[0] -= ROTATEPERFRAME;
+			if (TargetRotate[0] <= 0.f) {
+				PlayerMoveX(-1.f);
+				++TargetRotate[0];
+				if(TargetRotate[0] >= 0.f) PlayerState = STAY;
 			}
 			break;
 		case MOVEBACK:
-			PlayerRotate[0] += ROTATEPERFRAME;
-			if (PlayerRotate[0] >= TargetRotate[0]) {
-				PlayerRotate[0] = TargetRotate[0]; PlayerState = STAY;
+			//PlayerRotate[0] += ROTATEPERFRAME;
+			if (0.f <= TargetRotate[0]) {
+				PlayerMoveX(1.f);
+				--TargetRotate[0];
+				if(TargetRotate[0] <= 0.f) PlayerState = STAY;
 			}
 			break;
 		case MOVELEFT:
-			PlayerRotate[1] += ROTATEPERFRAME;
-			if (PlayerRotate[1] >= TargetRotate[1]) {
-				PlayerRotate[1] = TargetRotate[1]; PlayerState = STAY;
+			//PlayerRotate[1] += ROTATEPERFRAME;
+			if (0.f <= TargetRotate[1]) {
+				PlayerMoveZ(1.f);
+				--TargetRotate[1];
+				if (TargetRotate[1] <= 0.f) PlayerState = STAY;
 			}
 			break;
 		case MOVERIGHT:
-			PlayerRotate[1] -= ROTATEPERFRAME;
-			if (PlayerRotate[1] <= TargetRotate[1]) {
-				PlayerRotate[1] = TargetRotate[1]; PlayerState = STAY;
+			//PlayerRotate[1] -= ROTATEPERFRAME;
+			if (0.f >= TargetRotate[1]) {
+				PlayerMoveZ(-1.f);
+				++TargetRotate[1];
+				if (TargetRotate[1] >= 0.f) PlayerState = STAY;
 			}
 			break;
 	}

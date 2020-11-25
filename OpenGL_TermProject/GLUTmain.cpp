@@ -71,7 +71,7 @@ int main(int argc, char** argv) {
 	glutMouseFunc(Mouse);
 	glutMotionFunc(MouseMotion);
 	glutPassiveMotionFunc(MouseMotion);
-	glutTimerFunc(50, Update, 0);
+	glutTimerFunc(1, Update, 0);
 	
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LESS);
