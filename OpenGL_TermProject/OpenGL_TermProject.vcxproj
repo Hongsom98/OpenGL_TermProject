@@ -148,6 +148,7 @@
     <ClCompile Include="GLUTmain.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="SceneGame.cpp" />
     <ClCompile Include="SceneLogo.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SceneMenu.cpp" />
@@ -162,6 +163,7 @@
     <ClInclude Include="iScene.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="SceneGame.h" />
     <ClInclude Include="SceneLogo.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SceneMenu.h" />

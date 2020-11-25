@@ -3,6 +3,7 @@
 #include "iScene.h"
 #include "SceneLogo.h"
 #include "SceneMenu.h"
+#include "SceneGame.h"
 
 #define GET_SCENEMANAGER SCENEMANAGER::Instance()
 
@@ -12,7 +13,7 @@ public:
 	enum class e_SceneType {
 		Logo,
 		Menu,
-		test
+		Game
 	};
 
 public:

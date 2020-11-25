@@ -59,8 +59,8 @@ void SCENEMANAGER::SwitchScene(SCENEMANAGER::e_SceneType _type)
 	case e_SceneType::Menu:
 		CurScene = new SCENEMENU;
 		break;
-	case e_SceneType::test:
-		//CurScene = new test;
+	case e_SceneType::Game:
+		CurScene = new SCENEGAME;
 		break;
 	}
 }

@@ -20,6 +20,7 @@ void SCENEMENU::HandleEvents(unsigned char key, bool press)
 	if(press)
 		switch (key) {
 			case VK_RETURN:
+				GET_SCENEMANAGER->SwitchScene(SCENEMANAGER::e_SceneType::Game);
 				break;
 			case VK_ESCAPE:
 				glutLeaveMainLoop();
