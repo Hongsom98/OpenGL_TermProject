@@ -154,6 +154,7 @@
     <ClCompile Include="SceneMenu.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="Tile.cpp" />
     <ClCompile Include="TimeManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -169,6 +170,7 @@
     <ClInclude Include="SceneMenu.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Sound.h" />
+    <ClInclude Include="Tile.h" />
     <ClInclude Include="TimeManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
