@@ -1,21 +1,43 @@
 #include "Tile.h"
 
 
-void TILE::Load() {
+void TILE::Load(int type, float* translate) {
 	ReadObj();
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
-	glGenBuffers(2, VBO);
+	glGenBuffers(3, VBO);
 
-	Texture[0] = loadBMP("Default_Tile.bmp");
-	Texture[1] = loadBMP("Yellow_Tile.bmp");
-	Texture[2] = loadBMP("Red_Tile.bmp");
-	Texture[3] = loadBMP("Purple_Tile.bmp");
-	Texture[4] = loadBMP("Green_Tile.bmp");
-	Texture[5] = loadBMP("White_Tile.bmp");
-	Texture[6] = loadBMP("Blue_Tile.bmp");
+	switch (type) {
+		case 0:
+			Texture = loadBMP("Default_Tile.bmp");
+			break;
+		case 1:
+			Texture = loadBMP("Red_Tile.bmp");
+			break;
+		case 2:
+			Texture = loadBMP("Yellow_Tile.bmp");
+			break;
+		case 3:
+			Texture = loadBMP("Green_Tile.bmp");
+			break;
+		case 4:
+			Texture = loadBMP("Blue_Tile.bmp");
+			break;
+		case 5:
+			Texture = loadBMP("Purple_Tile.bmp");
+			break;
+		case 6:
+			Texture = loadBMP("White_Tile.bmp");
+			break;
+		default:
+			std::cout << "Tile Teuxture Loading Error" << std::endl;
+			break;
+	}
 
+	Translate.x = translate[0];
+	Translate.y = translate[1];
+	Translate.z = translate[2];
 }
 
 void TILE::ReadObj() {
@@ -30,22 +52,23 @@ void TILE::ReadObj() {
 		fscanf(path, "%s", count);
 		if (count[0] == 'v' && count[1] == '\0') vertexnum++;
 		else if (count[0] == 'f' && count[1] == '\0') facenum++;
-		else if (count[0] == 'v' && count[1] == 'n' && count[3] == '\0') normalnum++;
+		else if (count[0] == 'v' && count[1] == 'n' && count[2] == '\0') normalnum++;
 		else if (count[0] == 'v' && count[1] == 't' && count[3] == '\0') uvnum++;
 		memset(count, '\0', sizeof(count));
 	}
+
 	rewind(path);
 
 	int vertIndex = 0;
 	int faceIndex = 0;
-	int uvIndex = 0;
 	int normalIndex = 0;
+	int uvIndex = 0;
 	glm::vec3* vertex = new glm::vec3[vertexnum];
 	glm::vec3* face = new glm::vec3[facenum];
+	glm::vec3* normaldata = new glm::vec3[facenum];
+	glm::vec3* normal = new glm::vec3[normalnum];
 	glm::vec3* uvdata = new glm::vec3[facenum];
 	glm::vec2* uv = new glm::vec2[uvnum];
-	glm::vec3* normaldata = new glm::vec3[normalnum];
-	glm::vec3* normal = new glm::vec3[normalnum];
 
 	char bind[128];
 
@@ -146,6 +169,7 @@ GLuint TILE::loadBMP(const char* imagepath) {
 }
 
 void TILE::Render() {
+	GET_SHADER->Activate(PROGRAM_TILE);
 	GET_CAMERA->SetProjectionTransform(PROGRAM_TILE);
 	GET_CAMERA->SetViewTransform(PROGRAM_TILE);
 	GET_LIGHT->SetLight(PROGRAM_TILE);
@@ -155,5 +179,55 @@ void TILE::Render() {
 }
 
 void TILE::DrawCube(int V1, int V2, int V3, int N1, int N2, int N3, int U1, int U2, int U3) {
+	GLfloat POS[3][3] = {
+		{TileObj.Vertex[V1].x, TileObj.Vertex[V1].y, TileObj.Vertex[V1].z},
+		{TileObj.Vertex[V2].x, TileObj.Vertex[V2].y, TileObj.Vertex[V2].z},
+		{TileObj.Vertex[V3].x, TileObj.Vertex[V3].y, TileObj.Vertex[V3].z}
+	};
+	GLfloat NOR[3][3] = {
+		{TileObj.Normal[N1].x, TileObj.Normal[N1].y, TileObj.Normal[N1].z},
+		{TileObj.Normal[N2].x, TileObj.Normal[N2].y, TileObj.Normal[N2].z},
+		{TileObj.Normal[N3].x, TileObj.Normal[N3].y, TileObj.Normal[N3].z}
+	};
+	GLfloat TEX[3][2] = {
+		{TileObj.UV[U1].x, TileObj.UV[U1].y},
+		{TileObj.UV[U2].x, TileObj.UV[U2].y},
+		{TileObj.UV[U3].x, TileObj.UV[U3].y}
+	};
 
+	{
+		glm::mat4 scaling(1.0f);
+		scaling = glm::scale(scaling, glm::vec3(1, 0.05, 1));
+		glm::mat4 translating(1.0f);
+		translating = glm::translate(translating, Translate);
+		glm::mat4 result(1.0f);
+		result = translating * scaling;
+
+		unsigned int location = GET_SHADER->GetLocation("Model", PROGRAM_TILE);
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(result));
+	}
+
+	{
+		glBindVertexArray(VAO);
+
+		glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(POS), POS, GL_STATIC_DRAW);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(0);
+
+		glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(NOR), NOR, GL_STATIC_DRAW);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(1);
+
+		glBindBuffer(GL_ARRAY_BUFFER, VBO[2]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(TEX), TEX, GL_STATIC_DRAW);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(2);
+	}
+	{
+		glActiveTexture(GL_TEXTURE);
+		glBindTexture(GL_TEXTURE_2D, Texture);
+	}
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 }

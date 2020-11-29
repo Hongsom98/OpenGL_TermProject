@@ -10,7 +10,6 @@ uniform vec3 lightPos;
 uniform vec3 lightColor;
 uniform vec3 viewPos;
 uniform sampler2D outTexture;
-uniform float Alpha; 
 
 void main ()
 {
@@ -33,5 +32,4 @@ void main ()
 	
 	FragColor = vec4(result, 1.0);
 	FragColor = texture(outTexture, TexCoord) * FragColor;
-	FragColor = vec4(result, Alpha);
 }

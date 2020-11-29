@@ -5,7 +5,7 @@ class SCENEGAME :
     public iScene
 {
 private:
-
+	//TILE test;
 public:
 	SCENEGAME();
 	~SCENEGAME();
@@ -16,4 +16,6 @@ public:
 	void HandleEvents(int button, int state, int x, int y);
 	void Update();
 	void Render();
+
+	void TileGen();
 };

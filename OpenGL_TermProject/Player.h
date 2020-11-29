@@ -46,7 +46,6 @@ private:
 	GLuint Texture;
 	float PlayerRotate[2] = { 0 }; // x, z
 	int TargetRotate[2] = { 0 };
-	glm::vec3 AxisForMove[4]; // ╩С, го, аб, ©Л
 	CUBESTATE PlayerState = STAY;
 	int CubeAxis=0;
 	float RadStack = 0.f;

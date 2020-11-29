@@ -3,6 +3,8 @@
 SCENEGAME::SCENEGAME()
 {
 	std::cout << "Scene Game" << std::endl;
+	float testarr[3] = { 2.2, -1.2, 0 };
+	GET_TILE->Load(1, testarr);
 }
 
 SCENEGAME::~SCENEGAME()
@@ -37,12 +39,12 @@ void SCENEGAME::HandleEvents(int key, bool press)
 {
 	if (press)
 		switch (key) {
-		case GLUT_KEY_UP:
-		case GLUT_KEY_DOWN:
-		case GLUT_KEY_LEFT:
-		case GLUT_KEY_RIGHT:
-			GET_PLAYER->HandleEvents(key, press);
-			break;
+			case GLUT_KEY_UP:
+			case GLUT_KEY_DOWN:
+			case GLUT_KEY_LEFT:
+			case GLUT_KEY_RIGHT:
+				GET_PLAYER->HandleEvents(key, press);
+				break;
 		}
 }
 
@@ -59,4 +61,9 @@ void SCENEGAME::Update()
 void SCENEGAME::Render()
 {
 	GET_PLAYER->Render();
+	GET_TILE->Render();
+}
+
+void SCENEGAME::TileGen() {
+
 }

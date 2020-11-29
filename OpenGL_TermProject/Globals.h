@@ -15,6 +15,7 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "Light.h"
+#include "Tile.h"
 #include "SceneManager.h"
 
 #include "GameManager.h"

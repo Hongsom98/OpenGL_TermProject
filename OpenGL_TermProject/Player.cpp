@@ -8,11 +8,6 @@ void PLAYER::Load() {
 	glGenBuffers(2, VBO);
 	
 	Texture = loadBMP("bitmap_player.bmp");
-	
-	AxisForMove[0].x =	   0; AxisForMove[0].y = 0; AxisForMove[0].z = -1.1f;
-	AxisForMove[1].x =	   0; AxisForMove[1].y = 0; AxisForMove[1].z =  1.1f;
-	AxisForMove[2].x = -1.1f; AxisForMove[2].y = 0; AxisForMove[2].z =	   0;
-	AxisForMove[3].x =  1.1f; AxisForMove[3].y = 0; AxisForMove[3].z =     0;
 }
 
 void PLAYER::ReadObj() {
@@ -130,9 +125,9 @@ GLuint PLAYER::loadBMP(const char* imagepath) {
 }
 
 void PLAYER::Render() {
+	GET_SHADER->Activate(PROGRAM_PLAYER);
 	GET_CAMERA->SetProjectionTransform(PROGRAM_PLAYER);
 	GET_CAMERA->SetViewTransform(PROGRAM_PLAYER);
-
 	
 	for (int i = 0; i < PlayerObj.FaceIndex; ++i)
 		DrawCube(PlayerObj.Face[i].x - 1, PlayerObj.Face[i].y - 1, PlayerObj.Face[i].z - 1, PlayerObj.UVDate[i].x - 1, PlayerObj.UVDate[i].y - 1, PlayerObj.UVDate[i].z - 1);
@@ -150,12 +145,11 @@ void PLAYER::DrawCube(int V1, int V2, int V3, int U1, int U2, int U3) {
 		{PlayerObj.UV[U3].x, PlayerObj.UV[U3].y}
 	};
 
-	GET_SHADER->Activate(PROGRAM_PLAYER);
 	{
 		unsigned int location = GET_SHADER->GetLocation("Model", PROGRAM_PLAYER);
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(result));
 	}
-
+	
 	{
 		glBindVertexArray(VAO);
 		glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
@@ -219,7 +213,6 @@ void PLAYER::PlayerMoveX(float v)
 		result = ZTrans * Zrotate * ZTrans1 * result;
 	
 	}
-	std::cout << result[3][0] << " , " << result[3][1] << " , " << result[3][2] << std::endl;
 }
 
 void PLAYER::PlayerMoveZ(float v)
@@ -268,7 +261,6 @@ void PLAYER::PlayerMoveZ(float v)
 
 
 	}
-	std::cout << result[3][0] << " , " << result[3][1] << " , " << result[3][2] << std::endl;
 }
 
 void PLAYER::HandleEvents(unsigned char key, bool press) {
@@ -295,7 +287,6 @@ void PLAYER::HandleEvents(unsigned char key, bool press) {
 			case 'd':
 				if (PlayerState == STAY) {
 					PlayerState = MOVERIGHT;
-					//TargetRotate[1] = PlayerRotate[1] - 90;
 					TargetRotate[1] = -90.f;
 				}
 				break;
@@ -307,7 +298,6 @@ void PLAYER::Update() {
 		case STAY:
 			break;
 		case MOVEFORWARD:
-			//PlayerRotate[0] -= ROTATEPERFRAME;
 			if (TargetRotate[0] <= 0.f) {
 				PlayerMoveX(-1.f);
 				++TargetRotate[0];
@@ -315,7 +305,6 @@ void PLAYER::Update() {
 			}
 			break;
 		case MOVEBACK:
-			//PlayerRotate[0] += ROTATEPERFRAME;
 			if (0.f <= TargetRotate[0]) {
 				PlayerMoveX(1.f);
 				--TargetRotate[0];
@@ -323,7 +312,6 @@ void PLAYER::Update() {
 			}
 			break;
 		case MOVELEFT:
-			//PlayerRotate[1] += ROTATEPERFRAME;
 			if (0.f <= TargetRotate[1]) {
 				PlayerMoveZ(1.f);
 				--TargetRotate[1];
@@ -331,7 +319,6 @@ void PLAYER::Update() {
 			}
 			break;
 		case MOVERIGHT:
-			//PlayerRotate[1] -= ROTATEPERFRAME;
 			if (0.f >= TargetRotate[1]) {
 				PlayerMoveZ(-1.f);
 				++TargetRotate[1];
