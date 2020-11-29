@@ -3,8 +3,16 @@
 SCENEGAME::SCENEGAME()
 {
 	std::cout << "Scene Game" << std::endl;
-	float testarr[3] = { 2.2, -1.2, 0 };
+	float testarr[3] = { 2, -1.05, 0 };
 	GET_TILE->Load(1, testarr);
+	testarr[0] = 0; testarr[1] = -1.05; testarr[2] = 0;
+	GET_TILE->Load(0, testarr);
+	testarr[0] = -2; testarr[1] = -1.05; testarr[2] = 0;
+	GET_TILE->Load(2, testarr);
+	testarr[0] = 0; testarr[1] = -1.05; testarr[2] = 2;
+	GET_TILE->Load(3, testarr);
+	testarr[0] = 0; testarr[1] = -1.05; testarr[2] = -2;
+	GET_TILE->Load(4, testarr);
 }
 
 SCENEGAME::~SCENEGAME()

@@ -14,23 +14,34 @@ struct Tile {
 	int FaceIndex = 0;
 	int NormalIndex = 0;
 	int UVIndex = 0;
+	GLuint Texture[7];
+};
+
+struct NODE {
+	glm::vec3 Translate;
+	GLuint TexIndex;
+	NODE* next = NULL;
 };
 
 class TILE
 {
 public:
+	TILE();
+
 	void Load(int type, float* translate);
 
 	void ReadObj();
 	GLuint loadBMP(const char* imagepath);
 
 	void Render();
-	void DrawCube(int V1, int V2, int V3, int N1, int N2, int N3, int U1, int U2, int U3);
+	void DrawCube(int V1, int V2, int V3, int N1, int N2, int N3, int U1, int U2, int U3,
+				  glm::vec3 translate, GLuint TexIndex);
+	void ClearList();
+
 private:
 	Tile TileObj;
 	GLuint VAO, VBO[3];
-	GLuint Texture;
-	glm::vec3 Translate;
+	NODE* TileList;
 
 public:
 	static TILE* Instance() {

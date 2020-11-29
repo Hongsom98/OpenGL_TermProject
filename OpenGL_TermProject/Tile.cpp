@@ -1,43 +1,52 @@
 #include "Tile.h"
 
-
-void TILE::Load(int type, float* translate) {
+TILE::TILE() {
 	ReadObj();
 
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 	glGenBuffers(3, VBO);
 
-	switch (type) {
-		case 0:
-			Texture = loadBMP("Default_Tile.bmp");
-			break;
-		case 1:
-			Texture = loadBMP("Red_Tile.bmp");
-			break;
-		case 2:
-			Texture = loadBMP("Yellow_Tile.bmp");
-			break;
-		case 3:
-			Texture = loadBMP("Green_Tile.bmp");
-			break;
-		case 4:
-			Texture = loadBMP("Blue_Tile.bmp");
-			break;
-		case 5:
-			Texture = loadBMP("Purple_Tile.bmp");
-			break;
-		case 6:
-			Texture = loadBMP("White_Tile.bmp");
-			break;
-		default:
-			std::cout << "Tile Teuxture Loading Error" << std::endl;
-			break;
-	}
+	TileObj.Texture[0] = loadBMP("Default_Tile.bmp");
+	TileObj.Texture[1] = loadBMP("Red_Tile.bmp");
+	TileObj.Texture[2] = loadBMP("Yellow_Tile.bmp");
+	TileObj.Texture[3] = loadBMP("Green_Tile.bmp");
+	TileObj.Texture[4] = loadBMP("Blue_Tile.bmp");
+	TileObj.Texture[5] = loadBMP("Purple_Tile.bmp");
+	TileObj.Texture[6] = loadBMP("White_Tile.bmp");
 
-	Translate.x = translate[0];
-	Translate.y = translate[1];
-	Translate.z = translate[2];
+	TileList = NULL;
+}
+
+void TILE::Load(int type, float* translate) {
+
+	NODE* NewNode = new NODE;
+	NewNode->TexIndex = type;
+	NewNode->Translate.x = translate[0];
+	NewNode->Translate.y = translate[1];
+	NewNode->Translate.z = translate[2];
+
+	if (TileList == NULL) {
+		TileList = NewNode;
+	}
+	else {
+		NODE* LastNode = TileList;
+		while (LastNode->next != NULL) LastNode = LastNode->next;
+		LastNode->next = NewNode;
+	}
+}
+
+void TILE::ClearList() {
+	NODE* DelNode = TileList;
+	NODE* TempNode;
+	TileList = NULL;
+
+	while (true) {
+		TempNode = DelNode->next;
+		delete DelNode;
+		if (TempNode == NULL) break;
+		DelNode = TempNode;
+	}
 }
 
 void TILE::ReadObj() {
@@ -174,11 +183,18 @@ void TILE::Render() {
 	GET_CAMERA->SetViewTransform(PROGRAM_TILE);
 	GET_LIGHT->SetLight(PROGRAM_TILE);
 
-	for (int i = 0; i < TileObj.FaceIndex; ++i)
-		DrawCube(TileObj.Face[i].x - 1, TileObj.Face[i].y - 1, TileObj.Face[i].z - 1, TileObj.NormalData[i].x - 1, TileObj.NormalData[i].y - 1, TileObj.NormalData[i].z -1,TileObj.UVData[i].x - 1, TileObj.UVData[i].y - 1, TileObj.UVData[i].z - 1);
+	NODE* DrawNode = TileList;
+	while (DrawNode != NULL) {
+		for (int i = 0; i < TileObj.FaceIndex; ++i)
+			DrawCube(TileObj.Face[i].x - 1, TileObj.Face[i].y - 1, TileObj.Face[i].z - 1, TileObj.NormalData[i].x - 1, TileObj.NormalData[i].y - 1, TileObj.NormalData[i].z - 1, TileObj.UVData[i].x - 1, TileObj.UVData[i].y - 1, TileObj.UVData[i].z - 1, DrawNode->Translate, DrawNode->TexIndex);
+		DrawNode = DrawNode->next;
+	}
+	
 }
 
-void TILE::DrawCube(int V1, int V2, int V3, int N1, int N2, int N3, int U1, int U2, int U3) {
+void TILE::DrawCube(int V1, int V2, int V3, int N1, int N2, int N3, int U1, int U2, int U3,
+			  glm::vec3 translate, GLuint TexIndex) 
+{
 	GLfloat POS[3][3] = {
 		{TileObj.Vertex[V1].x, TileObj.Vertex[V1].y, TileObj.Vertex[V1].z},
 		{TileObj.Vertex[V2].x, TileObj.Vertex[V2].y, TileObj.Vertex[V2].z},
@@ -199,7 +215,7 @@ void TILE::DrawCube(int V1, int V2, int V3, int N1, int N2, int N3, int U1, int 
 		glm::mat4 scaling(1.0f);
 		scaling = glm::scale(scaling, glm::vec3(1, 0.05, 1));
 		glm::mat4 translating(1.0f);
-		translating = glm::translate(translating, Translate);
+		translating = glm::translate(translating, translate);
 		glm::mat4 result(1.0f);
 		result = translating * scaling;
 
@@ -227,7 +243,7 @@ void TILE::DrawCube(int V1, int V2, int V3, int N1, int N2, int N3, int U1, int 
 	}
 	{
 		glActiveTexture(GL_TEXTURE);
-		glBindTexture(GL_TEXTURE_2D, Texture);
+		glBindTexture(GL_TEXTURE_2D, TileObj.Texture[TexIndex]);
 	}
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
