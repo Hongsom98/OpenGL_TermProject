@@ -299,29 +299,29 @@ void PLAYER::Update() {
 			break;
 		case MOVEFORWARD:
 			if (TargetRotate[0] <= 0.f) {
-				PlayerMoveX(-1.f);
-				++TargetRotate[0];
+				PlayerMoveX(-5.f);
+				TargetRotate[0] += 5;
 				if(TargetRotate[0] >= 0.f) PlayerState = STAY;
 			}
 			break;
 		case MOVEBACK:
 			if (0.f <= TargetRotate[0]) {
-				PlayerMoveX(1.f);
-				--TargetRotate[0];
+				PlayerMoveX(5.f);
+				TargetRotate[0] -= 5;
 				if(TargetRotate[0] <= 0.f) PlayerState = STAY;
 			}
 			break;
 		case MOVELEFT:
 			if (0.f <= TargetRotate[1]) {
-				PlayerMoveZ(1.f);
-				--TargetRotate[1];
+				PlayerMoveZ(5.f);
+				TargetRotate[1] -= 5;
 				if (TargetRotate[1] <= 0.f) PlayerState = STAY;
 			}
 			break;
 		case MOVERIGHT:
 			if (0.f >= TargetRotate[1]) {
-				PlayerMoveZ(-1.f);
-				++TargetRotate[1];
+				PlayerMoveZ(-5.f);
+				TargetRotate[1] += 5;
 				if (TargetRotate[1] >= 0.f) PlayerState = STAY;
 			}
 			break;

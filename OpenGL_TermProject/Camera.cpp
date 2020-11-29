@@ -2,9 +2,9 @@
 
 
 CAMERA::CAMERA() {
-	CameraPos.x = 15.0f;
-	CameraPos.y = 15.0f;
-	CameraPos.z = 15.0f;
+	CameraPos.x = 10.0f;
+	CameraPos.y = 10.0f;
+	CameraPos.z = 10.0f;
 
 	CameraDirection.x = 0.0f;
 	CameraDirection.y = 0.0f;
@@ -25,7 +25,7 @@ void CAMERA::SetViewTransform(int ProgramID) {
 }
 
 void CAMERA::SetProjectionTransform(int ProgramID) {
-	glm::mat4 projection     = glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 50.0f);
+	glm::mat4 projection     = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 100.0f);
 
 	unsigned int projectionLocation = GET_SHADER->GetLocation("Projection", ProgramID);
 
