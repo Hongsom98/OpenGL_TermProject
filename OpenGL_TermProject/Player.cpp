@@ -178,40 +178,45 @@ void PLAYER::PlayerMoveX(float v)
 	{
 		PlayerRotate[0] = v;
 		RadStack += v;
-		if (RadStack <= -90.f)
-		{
-			TransInfo.z += 2.f;
-			RadStack = 0.f;
-		}
+		
 
-		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(0.f + TransInfo.x, 1.f + TransInfo.y, 1.f + TransInfo.z));
+		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(0 + (int)TransInfo.x, 1+TransInfo.y , 1 + (int)TransInfo.z));
 
-		glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
+		glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians((float)PlayerRotate[0]), glm::vec3(1, 0, 0));
 
-		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(0.f - TransInfo.x, -1.f - TransInfo.y, -1.f - TransInfo.z));
+		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(0 - (int)TransInfo.x, -1- TransInfo.y, -1 - (int)TransInfo.z));
 
 		result = ZTrans * Zrotate * ZTrans1 * result;
+		
+		
+		if (RadStack <= -90)
+		{
+			TransInfo.z += 2;
+			//TransInfo.z -= 0.0031;
 
+			RadStack = 0;
+		}
 	}
 	else //keyboard S
 	{
 		PlayerRotate[0] = v;
 		RadStack += v;
-		if (RadStack >= 90.f)
-		{
-			TransInfo.z -= 2.f;
-			RadStack = 0.f;
-		}
+		
 
-		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(0.f + TransInfo.x, 1.f + TransInfo.y, -1.f + TransInfo.z));
+		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(0+ (int)TransInfo.x, 1-TransInfo.y, -1+ (int)TransInfo.z));
 
-		glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[0]), glm::vec3(1, 0, 0));
+		glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians((float)PlayerRotate[0]), glm::vec3(1, 0, 0));
 
-		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(0.f - TransInfo.x, -1.f - TransInfo.y, 1.f - TransInfo.z));
-
+		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(0- (int)TransInfo.x, -1+ TransInfo.y, 1- (int)TransInfo.z));
 
 		result = ZTrans * Zrotate * ZTrans1 * result;
-	
+
+
+		if (RadStack >= 90)
+		{
+			TransInfo.z -= 2;
+			RadStack = 0;
+		}
 	}
 }
 
@@ -222,44 +227,43 @@ void PLAYER::PlayerMoveZ(float v)
 
 		PlayerRotate[1] = v;
 		RadStack += v;
-		if (RadStack >= 90.f)
-		{
-			TransInfo.x += 2.f;
-			RadStack = 0.f;
-		}
 		
-		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(1.f + TransInfo.x, 1.f + TransInfo.y, 0.f + TransInfo.z));
+		
+		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(1+ (int)TransInfo.x, 1, 0+ (int)TransInfo.z));
 
-		glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[1]), glm::vec3(0, 0, 1));
+		glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians((float)PlayerRotate[1]), glm::vec3(0, 0, 1));
 
-		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(-1.f - TransInfo.x, -1.f - TransInfo.y, 0.f - TransInfo.z));
+		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(-1- (int)TransInfo.x, -1, 0- (int)TransInfo.z));
 
-		//result[3][1] = 1.f;
 		result = ZTrans * Zrotate * ZTrans1 * result;
 		
 
+		if (RadStack >= 90)
+		{
+			TransInfo.x += 2;
+			RadStack = 0;
+		}
 	}
 	else // keyboard D
 	{
 		PlayerRotate[1] = v;
 		RadStack += v;
-		if (RadStack <= -90.f)
-		{
-			TransInfo.x -= 2.f;
-			RadStack = 0.f;
-		}
+		
 
+		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(-1 + (int)TransInfo.x, 1  , 0+ (int)TransInfo.z));
 
-		glm::mat4 ZTrans1 = glm::translate(glm::mat4(1.0f), glm::vec3(-1.f + TransInfo.x, 1.f + TransInfo.y , 0.f+ TransInfo.z));
+		glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians((float)PlayerRotate[1]), glm::vec3(0, 0, 1));
 
-		glm::mat4 Zrotate = glm::rotate(glm::mat4(1.0f), glm::radians(PlayerRotate[1]), glm::vec3(0, 0, 1));
+		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(1- (int)TransInfo.x , -1, 0 - (int)TransInfo.z));
 
-		glm::mat4 ZTrans = glm::translate(glm::mat4(1.0f), glm::vec3(1.f- TransInfo.x , -1.f- TransInfo.y, 0.f- TransInfo.z));
-
-		//result[3][1] = 1.f;
 		result = ZTrans * Zrotate * ZTrans1 * result;
 
 
+		if (RadStack <= -90)
+		{
+			TransInfo.x -= 2;
+			RadStack = 0;
+		}
 	}
 }
 
@@ -269,25 +273,25 @@ void PLAYER::HandleEvents(unsigned char key, bool press) {
 			case 'w':
 				if (PlayerState == STAY) {
 					PlayerState = MOVEFORWARD;
-					TargetRotate[0] = -90.f;
+					TargetRotate[0] = -90;
 				}
 				break;
 			case 's':
 				if (PlayerState == STAY) {
 					PlayerState = MOVEBACK;
-					TargetRotate[0] = 90.f;
+					TargetRotate[0] = 90;
 				}
 				break;
 			case 'a':
 				if (PlayerState == STAY) {
 					PlayerState = MOVELEFT;
-					TargetRotate[1] = 90.f;
+					TargetRotate[1] = 90;
 				}
 				break;
 			case 'd':
 				if (PlayerState == STAY) {
 					PlayerState = MOVERIGHT;
-					TargetRotate[1] = -90.f;
+					TargetRotate[1] = -90;
 				}
 				break;
 		}
@@ -299,31 +303,32 @@ void PLAYER::Update() {
 			break;
 		case MOVEFORWARD:
 			if (TargetRotate[0] <= 0.f) {
-				PlayerMoveX(-5.f);
+				PlayerMoveX(-5);
 				TargetRotate[0] += 5;
 				if(TargetRotate[0] >= 0.f) PlayerState = STAY;
 			}
 			break;
 		case MOVEBACK:
 			if (0.f <= TargetRotate[0]) {
-				PlayerMoveX(5.f);
+				PlayerMoveX(5);
 				TargetRotate[0] -= 5;
 				if(TargetRotate[0] <= 0.f) PlayerState = STAY;
 			}
 			break;
 		case MOVELEFT:
 			if (0.f <= TargetRotate[1]) {
-				PlayerMoveZ(5.f);
+				PlayerMoveZ(5);
 				TargetRotate[1] -= 5;
 				if (TargetRotate[1] <= 0.f) PlayerState = STAY;
 			}
 			break;
 		case MOVERIGHT:
 			if (0.f >= TargetRotate[1]) {
-				PlayerMoveZ(-5.f);
+				PlayerMoveZ(-5);
 				TargetRotate[1] += 5;
 				if (TargetRotate[1] >= 0.f) PlayerState = STAY;
 			}
 			break;
 	}
+	//std::cout << result[3][0] << " " << result[3][1] << " " << result[3][2] << std::endl; // 현재 result값 확인용
 }
