@@ -3,16 +3,8 @@
 SCENEGAME::SCENEGAME()
 {
 	std::cout << "Scene Game" << std::endl;
-	float testarr[3] = { 2, -1.05, 0 };
-	GET_TILE->Load(1, testarr);
-	testarr[0] = 0; testarr[1] = -1.05; testarr[2] = 0;
-	GET_TILE->Load(0, testarr);
-	testarr[0] = -2; testarr[1] = -1.05; testarr[2] = 0;
-	GET_TILE->Load(2, testarr);
-	testarr[0] = 0; testarr[1] = -1.05; testarr[2] = 2;
-	GET_TILE->Load(3, testarr);
-	testarr[0] = 0; testarr[1] = -1.05; testarr[2] = -2;
-	GET_TILE->Load(4, testarr);
+
+	TileGen("stage_test.txt");
 }
 
 SCENEGAME::~SCENEGAME()
@@ -72,6 +64,17 @@ void SCENEGAME::Render()
 	GET_TILE->Render();
 }
 
-void SCENEGAME::TileGen() {
+void SCENEGAME::TileGen(const char* StagePath) {
+	FILE* file = fopen(StagePath, "r");
 
+	while (!feof(file)) {
+		int TempType;
+		float TempTrans[3];
+		fscanf(file, "%d %f %f %f\n", &TempType, &TempTrans[0], &TempTrans[1], &TempTrans[2]);
+
+		GET_TILE->Load(TempType, TempTrans);
+	}
+
+
+	fclose(file);
 }

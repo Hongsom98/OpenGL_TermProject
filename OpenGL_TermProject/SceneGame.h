@@ -17,5 +17,5 @@ public:
 	void Update();
 	void Render();
 
-	void TileGen();
+	void TileGen(const char* StagePath);
 };
