@@ -23,10 +23,6 @@ struct CUBE {
 class PLAYER
 {
 public:
-	PLAYER() {
-		result = glm::mat4(1.0f);
-		TransInfo = glm::vec3(0.f);
-	}
 
 	void Load();
 
@@ -40,10 +36,16 @@ public:
 	void PlayerMoveZ(float);
 
 	void Update();
+
+	glm::vec2& GetLoc();
+
+	void ChangeCol(int MoveDir);
+	int GetCol();
 private:
 	CUBE PlayerObj;
 	GLuint VAO, VBO[2];
 	GLuint Texture;
+	
 	float PlayerRotate[2] = { 0 }; // x, z
 	int TargetRotate[2] = { 0 };
 	CUBESTATE PlayerState = STAY;
@@ -51,6 +53,9 @@ private:
 	float RadStack = 0.f;
 	glm::vec3 TransInfo;
 	glm::mat4 result;
+	
+	glm::vec2 Location;
+	int FaceCol[6]; // 보빨회초파노
 
 public:
 	static PLAYER* Instance() {
@@ -60,4 +65,7 @@ public:
 
 		return PlayeRInstance;
 	}
+
+	enum {XPLUS, XMINUS, ZPLUS, ZMINUS, YPLUS, YMINUS};
+
 };

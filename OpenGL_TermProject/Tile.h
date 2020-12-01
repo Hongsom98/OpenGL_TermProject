@@ -20,6 +20,7 @@ struct Tile {
 struct NODE {
 	glm::vec3 Translate;
 	GLuint TexIndex;
+	glm::vec2 Location;
 	NODE* next = NULL;
 };
 
@@ -28,7 +29,7 @@ class TILE
 public:
 	TILE();
 
-	void Load(int type, float* translate);
+	void Load(int type, float* translate, glm::vec2& Location);
 
 	void ReadObj();
 	GLuint loadBMP(const char* imagepath);
@@ -38,10 +39,15 @@ public:
 				  glm::vec3 translate, GLuint TexIndex);
 	void ClearList();
 
+	bool Update();
+
+	bool NoTile(float x, float z);
+
 private:
 	Tile TileObj;
 	GLuint VAO, VBO[3];
 	NODE* TileList;
+	int SpecialTileCnt;
 
 public:
 	static TILE* Instance() {

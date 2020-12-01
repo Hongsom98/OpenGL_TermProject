@@ -8,6 +8,19 @@ void PLAYER::Load() {
 	glGenBuffers(2, VBO);
 	
 	Texture = loadBMP("bitmap_player.bmp");
+
+	Location = glm::vec2(0, 0);
+
+
+	result = glm::mat4(1.0f);
+	TransInfo = glm::vec3(0.f);
+
+	FaceCol[0] = YPLUS; // 보
+	FaceCol[1] = ZPLUS; // 빨
+	FaceCol[2] = YMINUS; // 회
+	FaceCol[3] = ZMINUS; // 초
+	FaceCol[4] = XPLUS; // 파
+	FaceCol[5] = XMINUS; // 노
 }
 
 void PLAYER::ReadObj() {
@@ -271,27 +284,35 @@ void PLAYER::HandleEvents(unsigned char key, bool press) {
 	if(press) 
 		switch (key) {
 			case 'w':
-				if (PlayerState == STAY) {
-					PlayerState = MOVEFORWARD;
-					TargetRotate[0] = -90;
+				if (!GET_TILE->NoTile(Location.x, Location.y - 2)) {
+					if (PlayerState == STAY) {
+						PlayerState = MOVEFORWARD;
+						TargetRotate[0] = -90;
+					}
 				}
 				break;
 			case 's':
-				if (PlayerState == STAY) {
-					PlayerState = MOVEBACK;
-					TargetRotate[0] = 90;
+				if (!GET_TILE->NoTile(Location.x, Location.y + 2)) {
+					if (PlayerState == STAY) {
+						PlayerState = MOVEBACK;
+						TargetRotate[0] = 90;
+					}
 				}
 				break;
 			case 'a':
-				if (PlayerState == STAY) {
-					PlayerState = MOVELEFT;
-					TargetRotate[1] = 90;
+				if (!GET_TILE->NoTile(Location.x - 2, Location.y)) {
+					if (PlayerState == STAY) {
+						PlayerState = MOVELEFT;
+						TargetRotate[1] = 90;
+					}
 				}
 				break;
 			case 'd':
-				if (PlayerState == STAY) {
-					PlayerState = MOVERIGHT;
-					TargetRotate[1] = -90;
+				if (!GET_TILE->NoTile(Location.x + 2, Location.y)) {
+					if (PlayerState == STAY) {
+						PlayerState = MOVERIGHT;
+						TargetRotate[1] = -90;
+					}
 				}
 				break;
 		}
@@ -305,30 +326,91 @@ void PLAYER::Update() {
 			if (TargetRotate[0] <= 0.f) {
 				PlayerMoveX(-5);
 				TargetRotate[0] += 5;
-				if(TargetRotate[0] >= 0.f) PlayerState = STAY;
+				if (TargetRotate[0] >= 0.f) {
+					PlayerState = STAY;
+					ChangeCol(MOVEFORWARD);
+					Location.y -= 2;
+				}
 			}
 			break;
 		case MOVEBACK:
 			if (0.f <= TargetRotate[0]) {
 				PlayerMoveX(5);
 				TargetRotate[0] -= 5;
-				if(TargetRotate[0] <= 0.f) PlayerState = STAY;
+				if(TargetRotate[0] <= 0.f) {
+					PlayerState = STAY;
+					ChangeCol(MOVEBACK);
+					Location.y += 2;
+				}
 			}
 			break;
 		case MOVELEFT:
 			if (0.f <= TargetRotate[1]) {
 				PlayerMoveZ(5);
 				TargetRotate[1] -= 5;
-				if (TargetRotate[1] <= 0.f) PlayerState = STAY;
+				if (TargetRotate[1] <= 0.f) {
+					PlayerState = STAY;
+					ChangeCol(MOVELEFT);
+					Location.x -= 2;
+				}
 			}
 			break;
 		case MOVERIGHT:
 			if (0.f >= TargetRotate[1]) {
 				PlayerMoveZ(-5);
 				TargetRotate[1] += 5;
-				if (TargetRotate[1] >= 0.f) PlayerState = STAY;
+				if (TargetRotate[1] >= 0.f) {
+					PlayerState = STAY;
+					ChangeCol(MOVERIGHT);
+					Location.x += 2;
+				}
 			}
 			break;
 	}
-	//std::cout << result[3][0] << " " << result[3][1] << " " << result[3][2] << std::endl; // 현재 result값 확인용
+}
+
+glm::vec2& PLAYER::GetLoc() {
+	return Location;
+}
+
+void PLAYER::ChangeCol(int MoveDir) {
+	switch (MoveDir) {
+		case MOVEFORWARD:
+			for (int i = 0; i < 6; ++i) {
+				if (FaceCol[i] == ZPLUS) FaceCol[i] = YPLUS;
+				else if (FaceCol[i] == YPLUS) FaceCol[i] = ZMINUS;
+				else if (FaceCol[i] == ZMINUS) FaceCol[i] = YMINUS;
+				else if (FaceCol[i] == YMINUS) FaceCol[i] = ZPLUS;
+			}
+			break;
+		case MOVEBACK:
+			for (int i = 0; i < 6; ++i) {
+				if (FaceCol[i] == ZPLUS) FaceCol[i] = YMINUS;
+				else if (FaceCol[i] == YPLUS) FaceCol[i] = ZPLUS;
+				else if (FaceCol[i] == ZMINUS) FaceCol[i] = YPLUS;
+				else if (FaceCol[i] == YMINUS) FaceCol[i] = ZMINUS;
+			}
+			break;
+		case MOVELEFT:
+			for (int i = 0; i < 6; ++i) {
+				if (FaceCol[i] == XPLUS) FaceCol[i] = YPLUS;
+				else if (FaceCol[i] == YPLUS) FaceCol[i] = XMINUS;
+				else if (FaceCol[i] == XMINUS) FaceCol[i] = YMINUS;
+				else if (FaceCol[i] == YMINUS) FaceCol[i] = XPLUS;
+			}
+			break;
+		case MOVERIGHT:
+			for (int i = 0; i < 6; ++i) {
+				if (FaceCol[i] == XPLUS) FaceCol[i] = YMINUS;
+				else if (FaceCol[i] == YPLUS) FaceCol[i] = XPLUS;
+				else if (FaceCol[i] == XMINUS) FaceCol[i] = YPLUS;
+				else if (FaceCol[i] == YMINUS) FaceCol[i] = XMINUS;
+			}
+			break;
+	}
+}
+
+int PLAYER::GetCol() {
+	for (int i = 0; i < 6; ++i)
+		if (FaceCol[i] == YMINUS) return i;
 }

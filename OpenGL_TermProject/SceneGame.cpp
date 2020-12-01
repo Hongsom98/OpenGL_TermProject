@@ -5,6 +5,7 @@ SCENEGAME::SCENEGAME()
 	std::cout << "Scene Game" << std::endl;
 
 	TileGen("stage_test.txt");
+	StageNum = 0;
 }
 
 SCENEGAME::~SCENEGAME()
@@ -56,6 +57,11 @@ void SCENEGAME::HandleEvents(int button, int state, int x, int y)
 void SCENEGAME::Update()
 {
 	GET_PLAYER->Update();
+	if (GET_TILE->Update()) {
+		StageNum++;
+		std::cout << StageNum << std::endl;
+		SwitchStage();
+	}
 }
 
 void SCENEGAME::Render()
@@ -64,15 +70,30 @@ void SCENEGAME::Render()
 	GET_TILE->Render();
 }
 
+void SCENEGAME::SwitchStage() {
+	switch (StageNum) {
+	case 1:
+		GET_TILE->ClearList();
+		GET_PLAYER->Load();
+		TileGen("stage_test2.txt");
+		break;
+	case 2:
+		break;
+	default:
+		break;
+	}
+}
+
 void SCENEGAME::TileGen(const char* StagePath) {
 	FILE* file = fopen(StagePath, "r");
 
 	while (!feof(file)) {
 		int TempType;
 		float TempTrans[3];
-		fscanf(file, "%d %f %f %f\n", &TempType, &TempTrans[0], &TempTrans[1], &TempTrans[2]);
+		glm::vec2 TempLoc;
+		fscanf(file, "%d %f %f %f %f %f\n", &TempType, &TempTrans[0], &TempTrans[1], &TempTrans[2], &TempLoc.x, &TempLoc.y);
 
-		GET_TILE->Load(TempType, TempTrans);
+		GET_TILE->Load(TempType, TempTrans, TempLoc);
 	}
 
 

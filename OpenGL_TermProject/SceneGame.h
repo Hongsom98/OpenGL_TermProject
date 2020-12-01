@@ -5,7 +5,7 @@ class SCENEGAME :
     public iScene
 {
 private:
-	//TILE test;
+	int StageNum;
 public:
 	SCENEGAME();
 	~SCENEGAME();
@@ -17,5 +17,6 @@ public:
 	void Update();
 	void Render();
 
+	void SwitchStage();
 	void TileGen(const char* StagePath);
 };

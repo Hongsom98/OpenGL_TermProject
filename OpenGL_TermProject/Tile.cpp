@@ -8,23 +8,26 @@ TILE::TILE() {
 	glGenBuffers(3, VBO);
 
 	TileObj.Texture[0] = loadBMP("Default_Tile.bmp");
-	TileObj.Texture[1] = loadBMP("Red_Tile.bmp");
-	TileObj.Texture[2] = loadBMP("Yellow_Tile.bmp");
-	TileObj.Texture[3] = loadBMP("Green_Tile.bmp");
-	TileObj.Texture[4] = loadBMP("Blue_Tile.bmp");
-	TileObj.Texture[5] = loadBMP("Purple_Tile.bmp");
-	TileObj.Texture[6] = loadBMP("White_Tile.bmp");
+	TileObj.Texture[1] = loadBMP("Purple_Tile.bmp");
+	TileObj.Texture[2] = loadBMP("Red_Tile.bmp");
+	TileObj.Texture[3] = loadBMP("White_Tile.bmp");
+	TileObj.Texture[4] = loadBMP("Green_Tile.bmp");
+	TileObj.Texture[5] = loadBMP("Blue_Tile.bmp");
+	TileObj.Texture[6] = loadBMP("Yellow_Tile.bmp");
 
 	TileList = NULL;
+	SpecialTileCnt = 0;
 }
 
-void TILE::Load(int type, float* translate) {
+void TILE::Load(int type, float* translate, glm::vec2& Location) {
 
 	NODE* NewNode = new NODE;
 	NewNode->TexIndex = type;
+	if (type != 0) SpecialTileCnt++;
 	NewNode->Translate.x = translate[0];
 	NewNode->Translate.y = translate[1];
 	NewNode->Translate.z = translate[2];
+	NewNode->Location = Location;
 
 	if (TileList == NULL) {
 		TileList = NewNode;
@@ -34,6 +37,7 @@ void TILE::Load(int type, float* translate) {
 		while (LastNode->next != NULL) LastNode = LastNode->next;
 		LastNode->next = NewNode;
 	}
+
 }
 
 void TILE::ClearList() {
@@ -189,7 +193,6 @@ void TILE::Render() {
 			DrawCube(TileObj.Face[i].x - 1, TileObj.Face[i].y - 1, TileObj.Face[i].z - 1, TileObj.NormalData[i].x - 1, TileObj.NormalData[i].y - 1, TileObj.NormalData[i].z - 1, TileObj.UVData[i].x - 1, TileObj.UVData[i].y - 1, TileObj.UVData[i].z - 1, DrawNode->Translate, DrawNode->TexIndex);
 		DrawNode = DrawNode->next;
 	}
-	
 }
 
 void TILE::DrawCube(int V1, int V2, int V3, int N1, int N2, int N3, int U1, int U2, int U3,
@@ -246,4 +249,31 @@ void TILE::DrawCube(int V1, int V2, int V3, int N1, int N2, int N3, int U1, int 
 		glBindTexture(GL_TEXTURE_2D, TileObj.Texture[TexIndex]);
 	}
 	glDrawArrays(GL_TRIANGLES, 0, 3);
+}
+
+bool TILE::Update() {
+	NODE* SearchNode = TileList;
+
+	while (SearchNode != NULL) {
+		if (SearchNode->TexIndex != 0) {
+			if (SearchNode->Location == GET_PLAYER->GetLoc() && SearchNode->TexIndex == GET_PLAYER->GetCol() + 1) {
+				SearchNode->TexIndex = 0;
+				SpecialTileCnt--;
+				if (SpecialTileCnt == 0) return true;
+			}
+		}
+		SearchNode = SearchNode->next;
+	}
+	return false;
+}
+
+bool TILE::NoTile(float x, float z) {
+	NODE* SearchNode = TileList;
+
+	while (SearchNode != NULL) {
+		if (SearchNode->Location.x == x && SearchNode->Location.y == z) return false;
+		else SearchNode = SearchNode->next;
+	}
+
+	return true;
 }
