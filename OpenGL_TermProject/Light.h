@@ -10,8 +10,10 @@ public:
 
 	void Init();
 
+	void TransLight(int);
+	void HandleEvents(unsigned char key, bool press);
 	void SetLight(int ProgramID);
-
+	void Update();
 private:
 	glm::vec3 LightPos;
 	glm::vec3 LightCol;

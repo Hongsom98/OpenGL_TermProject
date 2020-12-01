@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Globals.h"
-
 #define TIMER 100
 #define ROTATEPERFRAME 90 / 10
 #define GET_PLAYER PLAYER::Instance()

@@ -255,6 +255,7 @@ void PLAYER::PlayerMoveZ(float v)
 		{
 			TransInfo.x += 2;
 			RadStack = 0;
+			
 		}
 	}
 	else // keyboard D
