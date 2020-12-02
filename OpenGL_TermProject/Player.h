@@ -40,6 +40,7 @@ public:
 
 	void ChangeCol(int MoveDir);
 	int GetCol();
+	glm::vec2 Location;
 private:
 	CUBE PlayerObj;
 	GLuint VAO, VBO[2];
@@ -53,7 +54,7 @@ private:
 	glm::vec3 TransInfo;
 	glm::mat4 result;
 	
-	glm::vec2 Location;
+	
 	int FaceCol[6]; // 보빨회초파노
 
 public:

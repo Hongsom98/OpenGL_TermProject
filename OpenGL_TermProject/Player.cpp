@@ -208,6 +208,7 @@ void PLAYER::PlayerMoveX(float v)
 			//TransInfo.z -= 0.0031;
 
 			RadStack = 0;
+			GET_LIGHT->TransLight('w');
 		}
 	}
 	else //keyboard S
@@ -229,6 +230,7 @@ void PLAYER::PlayerMoveX(float v)
 		{
 			TransInfo.z -= 2;
 			RadStack = 0;
+			GET_LIGHT->TransLight('s');
 		}
 	}
 }
@@ -255,7 +257,7 @@ void PLAYER::PlayerMoveZ(float v)
 		{
 			TransInfo.x += 2;
 			RadStack = 0;
-			
+			GET_LIGHT->TransLight('a');
 		}
 	}
 	else // keyboard D
@@ -277,6 +279,7 @@ void PLAYER::PlayerMoveZ(float v)
 		{
 			TransInfo.x -= 2;
 			RadStack = 0;
+			GET_LIGHT->TransLight('d');
 		}
 	}
 }
