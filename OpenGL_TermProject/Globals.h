@@ -16,6 +16,7 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Tile.h"
+#include "BackGround.h"
 #include "SceneManager.h"
 
 #include "GameManager.h"

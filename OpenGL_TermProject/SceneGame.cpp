@@ -101,3 +101,18 @@ void SCENEGAME::TileGen(const char* StagePath) {
 
 	fclose(file);
 }
+
+void SCENEGAME::BackGroundGen(const char* StagePath) {
+	FILE* file = fopen(StagePath, "r");
+
+	while (!feof(file)) {
+		float TempTrans[3];
+
+		fscanf(file, "%f %f %f\n", &TempTrans[0], &TempTrans[1], &TempTrans[2]);
+
+		GET_BG->Load(TempTrans);
+	}
+
+
+	fclose(file);
+}
