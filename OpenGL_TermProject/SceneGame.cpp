@@ -32,7 +32,6 @@ void SCENEGAME::HandleEvents(unsigned char key, bool press)
 		case 'a':
 		case 'd':
 			GET_PLAYER->HandleEvents(key, press);
-			GET_LIGHT->HandleEvents(key, press);
 			break;
 		}
 }
@@ -63,7 +62,7 @@ void SCENEGAME::Update()
 		std::cout << StageNum << std::endl;
 		SwitchStage();
 	}
-	GET_LIGHT->Update();
+	
 }
 
 void SCENEGAME::Render()
@@ -80,6 +79,7 @@ void SCENEGAME::SwitchStage() {
 		TileGen("stage_test2.txt");
 		break;
 	case 2:
+
 		break;
 	default:
 		break;

@@ -1,7 +1,7 @@
 #include "Light.h"
 
 LIGHT::LIGHT() {
-	LightPos.x = 4.0f;
+	LightPos.x = 0.0f;
 	LightPos.y = 3.0f;
 	LightPos.z = 0.0f;
 
@@ -31,24 +31,6 @@ void LIGHT::TransLight(int key)
 		LightPos.x += 2;
 		break;
 	}
-}
-
-void LIGHT::HandleEvents(unsigned char key, bool press)
-{
-	if (press)
-		switch (key) {
-		case 'w':
-		case 's':
-		case 'a':
-		case 'd':
-			TransLight(key);
-			break;
-		}
-}
-
-void LIGHT::Update()
-{
-
 }
 
 void LIGHT::SetLight(int ProgramID) {
