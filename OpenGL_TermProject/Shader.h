@@ -4,12 +4,13 @@
 #define GET_SHADER SHADER::Instance()
 #pragma warning(disable:4996)
 
-#define TOTALPROGRAMS 3
+#define TOTALPROGRAMS 4
 
 enum {
 	PROGRAM_PLAYER,
 	PROGRAM_BACKGROUND,
-	PROGRAM_TILE
+	PROGRAM_TILE,
+	PROGRAM_FONT
 };
 
 class SHADER
