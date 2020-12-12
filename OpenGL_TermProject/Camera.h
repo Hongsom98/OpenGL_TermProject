@@ -14,6 +14,8 @@ public:
 	
 	void SetProjectionTransform(int ProgramID);
 
+	void SetProjectionTransformForBG(int ProgramID);
+
 	float GetCameraXPos() { return CameraPos.x; }
 
 	float GetCameraYPos() { return CameraPos.y; }

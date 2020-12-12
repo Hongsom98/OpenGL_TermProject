@@ -31,3 +31,11 @@ void CAMERA::SetProjectionTransform(int ProgramID) {
 
 	glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, &projection[0][0]);
 }
+
+void CAMERA::SetProjectionTransformForBG(int ProgramID) {
+	glm::mat4 projection = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 100.0f);
+
+	unsigned int projectionLocation = GET_SHADER->GetLocation("Projection", ProgramID);
+
+	glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, &projection[0][0]);
+}

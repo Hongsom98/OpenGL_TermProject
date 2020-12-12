@@ -6,6 +6,7 @@ SCENEGAME::SCENEGAME()
 
 	TileGen("stage_test.txt");
 	StageNum = 0;
+	BackGroundGen("BackGround_Gen.txt");
 }
 
 SCENEGAME::~SCENEGAME()
@@ -38,15 +39,7 @@ void SCENEGAME::HandleEvents(unsigned char key, bool press)
 
 void SCENEGAME::HandleEvents(int key, bool press)
 {
-	if (press)
-		switch (key) {
-			case GLUT_KEY_UP:
-			case GLUT_KEY_DOWN:
-			case GLUT_KEY_LEFT:
-			case GLUT_KEY_RIGHT:
-				GET_PLAYER->HandleEvents(key, press);
-				break;
-		}
+	
 }
 
 void SCENEGAME::HandleEvents(int button, int state, int x, int y)
@@ -63,12 +56,16 @@ void SCENEGAME::Update()
 		SwitchStage();
 	}
 	
+	GET_BG->Update();
 }
 
 void SCENEGAME::Render()
 {
 	GET_PLAYER->Render();
 	GET_TILE->Render();
+
+	//투명한 객체는 제일 마지막에 랜더링
+	GET_BG->Render();
 }
 
 void SCENEGAME::SwitchStage() {
@@ -76,6 +73,7 @@ void SCENEGAME::SwitchStage() {
 	case 1:
 		GET_TILE->ClearList();
 		GET_PLAYER->Load();
+		GET_BG->ChangeCol();
 		TileGen("stage_test2.txt");
 		break;
 	case 2:

@@ -10,25 +10,28 @@ BACKGROUND::BACKGROUND() {
 	std::random_device rd;
 	std::mt19937_64 rnd(rd());
 	std::uniform_real_distribution<float> uid(0, 1);
-	float FirstCol[3] = { uid(rnd), uid(rnd), uid(rnd) };
+	float FirstCol = uid(rnd);
 	for (int i = 0; i < 3; ++i) {
-		COL[i][0] = FirstCol[0];
-		COL[i][1] = FirstCol[1];
-		COL[i][2] = FirstCol[2];
+		COL[i][0] = FirstCol;
+		COL[i][1] = FirstCol;
+		COL[i][2] = FirstCol;
 	}
+
+	BGList = NULL;
 }
 
 void BACKGROUND::Load(float* translate) {
 
 	std::random_device rd;
 	std::mt19937_64 rnd(rd());
-	std::uniform_real_distribution<float> uid(-0.1, 0.1);
+	std::uniform_real_distribution<float> uid(-0.05, 0.05);
 
 	BNODE* NewNode = new BNODE;
 	NewNode->translate.x = translate[0];
 	NewNode->translate.y = translate[1];
 	NewNode->translate.z = translate[2];
 	NewNode->MoveSpeed = uid(rnd);
+	NewNode->MoveCnt = 0;
 
 	if (BGList == NULL) {
 		BGList = NewNode;
@@ -93,13 +96,20 @@ void BACKGROUND::Render() {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	for (int i = 0; i < BGObj.FaceIndex; ++i)
-		DrawCube(BGObj.Face[i].x - 1, BGObj.Face[i].y - 1, BGObj.Face[i].z - 1);
+	SetAlpha();
 
+	BNODE* RenderNode = BGList;
+
+	while (RenderNode != NULL) {
+		for (int i = 0; i < BGObj.FaceIndex; ++i)
+			DrawCube(BGObj.Face[i].x - 1, BGObj.Face[i].y - 1, BGObj.Face[i].z - 1, RenderNode->translate);
+		RenderNode = RenderNode->next;
+	}
+	
 	glDisable(GL_BLEND);
 }
 
-void BACKGROUND::DrawCube(int V1, int V2, int V3) {
+void BACKGROUND::DrawCube(int V1, int V2, int V3, glm::vec3 translate) {
 	GLfloat POS[3][3] = {
 		{BGObj.Vertex[V1].x, BGObj.Vertex[V1].y, BGObj.Vertex[V1].z},
 		{BGObj.Vertex[V2].x, BGObj.Vertex[V2].y, BGObj.Vertex[V2].z},
@@ -108,9 +118,9 @@ void BACKGROUND::DrawCube(int V1, int V2, int V3) {
 
 	{
 		glm::mat4 scaling(1.0f);
-		scaling = glm::scale(scaling, glm::vec3(1, 3, 1));
+		scaling = glm::scale(scaling, glm::vec3(1, 2, 1));
 		glm::mat4 translating(1.0f);
-		
+		translating = glm::translate(translating, translate);
 		glm::mat4 result(1.0f);
 		result = translating * scaling;
 
@@ -149,5 +159,22 @@ void BACKGROUND::ChangeCol() {
 }
 
 void BACKGROUND::Update() {
+	BNODE* UpdateNode = BGList;
 
+	while (UpdateNode != NULL) {
+
+		UpdateNode->translate.y += UpdateNode->MoveSpeed;
+		UpdateNode->MoveCnt++;
+
+		if (UpdateNode->MoveCnt % 30 == 0) UpdateNode->MoveSpeed *= -1;
+
+		UpdateNode = UpdateNode->next;
+	}
+}
+
+void BACKGROUND::SetAlpha() {
+	float alpha = 0.5;
+
+	unsigned int location = GET_SHADER->GetLocation("Alpha", PROGRAM_BACKGROUND);
+	glUniform1f(location, alpha);
 }
