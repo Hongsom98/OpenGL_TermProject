@@ -3,6 +3,7 @@
 void GameManager::Init() {
 	GET_SHADER->Load();
 	GET_PLAYER->Load();
+	GET_FONT->Load();
 
 	GET_LIGHT->SetLight(PROGRAM_BACKGROUND);
 	GET_LIGHT->SetLight(PROGRAM_TILE);
@@ -10,10 +11,12 @@ void GameManager::Init() {
 	GET_CAMERA->SetViewTransform(PROGRAM_PLAYER);
 	GET_CAMERA->SetViewTransform(PROGRAM_BACKGROUND);
 	GET_CAMERA->SetViewTransform(PROGRAM_TILE);
+	GET_CAMERA->SetViewTransform(PROGRAM_FONT);
 
 	GET_CAMERA->SetProjectionTransform(PROGRAM_PLAYER);
 	GET_CAMERA->SetProjectionTransform(PROGRAM_BACKGROUND);
 	GET_CAMERA->SetProjectionTransform(PROGRAM_TILE);
+	GET_CAMERA->SetProjectionTransform(PROGRAM_FONT);
 
 	GET_SCENEMANAGER->Init();
 }

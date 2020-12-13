@@ -7,8 +7,24 @@ void FONT::Load() {
 	glBindVertexArray(VAO);
 	glGenBuffers(2, VBO);
 
-	Texture = loadBMP("bitmap_player.bmp");
+	Texture = loadBMP("Game_Start.bmp");
 
+
+
+	result = glm::mat4(1.0f);
+	TransInfo = glm::vec3(0.f);
+	TransFont = glm::vec3(0.f);
+}
+
+void FONT::Render() {
+	GET_SHADER->Activate(PROGRAM_FONT);
+	//GET_CAMERA->SetProjectionTransform(PROGRAM_FONT);
+	//GET_CAMERA->SetViewTransform(PROGRAM_FONT);
+
+	
+	result = glm::translate(glm::mat4(1.0f),TransFont) * glm::rotate(glm::mat4(1.0f), glm::radians(-90.f), glm::vec3(0, 0, 1)) * glm::scale(glm::mat4(1.0f),glm::vec3(0.7f,0.7f,0.7f));
+	for (int i = 0; i < FontObj.FaceIndex; ++i)
+		Draw(FontObj.Face[i].x - 1, FontObj.Face[i].y - 1, FontObj.Face[i].z - 1, FontObj.UVData[i].x - 1, FontObj.UVData[i].y - 1, FontObj.UVData[i].z - 1);
 	
 }
 
@@ -28,17 +44,13 @@ void FONT::ReadObj() {
 		else if (count[0] == 'v' && count[1] == 't' && count[3] == '\0') uvnum++;
 		memset(count, '\0', sizeof(count));
 	}
-
 	rewind(path);
 
 	int vertIndex = 0;
 	int faceIndex = 0;
-	int normalIndex = 0;
 	int uvIndex = 0;
 	glm::vec3* vertex = new glm::vec3[vertexnum];
 	glm::vec3* face = new glm::vec3[facenum];
-	glm::vec3* normaldata = new glm::vec3[facenum];
-	glm::vec3* normal = new glm::vec3[normalnum];
 	glm::vec3* uvdata = new glm::vec3[facenum];
 	glm::vec2* uv = new glm::vec2[uvnum];
 
@@ -54,14 +66,10 @@ void FONT::ReadObj() {
 		else if (bind[0] == 'f' && bind[1] == '\0') {
 			unsigned int temp_face[3], temp_uv[3], temp_normal[3];
 			fscanf(path, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &temp_face[0], &temp_uv[0], &temp_normal[0], &temp_face[1], &temp_uv[1], &temp_normal[1], &temp_face[2], &temp_uv[2], &temp_normal[2]);
+			fscanf(path, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &temp_face[0], &temp_uv[0], &temp_normal[0], &temp_face[1], &temp_uv[1], &temp_normal[1], &temp_face[2], &temp_uv[2], &temp_normal[2]);
 			face[faceIndex].x = temp_face[0]; face[faceIndex].y = temp_face[1]; face[faceIndex].z = temp_face[2];
-			normaldata[faceIndex].x = temp_normal[0]; normaldata[faceIndex].y = temp_normal[1]; normaldata[faceIndex].z = temp_normal[2];
 			uvdata[faceIndex].x = temp_uv[0]; uvdata[faceIndex].y = temp_uv[1]; uvdata[faceIndex].z = temp_uv[2];
 			faceIndex++;
-		}
-		else if (bind[0] == 'v' && bind[1] == 'n' && bind[2] == '\0') {
-			fscanf(path, "%f %f %f\n", &normal[normalIndex].x, &normal[normalIndex].y, &normal[normalIndex].z);
-			normalIndex++;
 		}
 		else if (bind[0] == 'v' && bind[1] == 't' && bind[2] == '\0') {
 			fscanf(path, "%f %f\n", &uv[uvIndex].x, &uv[uvIndex].y);
@@ -82,15 +90,56 @@ void FONT::ReadObj() {
 	FontObj.Face = face;
 	FontObj.UV = uv;
 	FontObj.UVData = uvdata;
-	FontObj.NormalData = normaldata;
-	FontObj.Normal = normal;
 	
 	FontObj.VertexIndex = vertIndex;
 	FontObj.FaceIndex = faceIndex;
 	FontObj.UVIndex = uvIndex;
-	FontObj.NormalIndex = normalIndex;
 
 	fclose(path);
+}
+
+void FONT::Update() {
+
+
+}
+
+void FONT::Draw(int V1, int V2, int V3, int U1, int U2, int U3) {
+	GLfloat POS[3][3] = {
+		{FontObj.Vertex[V1].x,FontObj.Vertex[V1].y, FontObj.Vertex[V1].z},
+		{FontObj.Vertex[V2].x,FontObj.Vertex[V2].y, FontObj.Vertex[V2].z},
+		{FontObj.Vertex[V3].x,FontObj.Vertex[V3].y, FontObj.Vertex[V3].z}
+	};
+	GLfloat TEX[3][2] = {
+		{FontObj.UV[U1].x, FontObj.UV[U1].y},
+		{FontObj.UV[U2].x, FontObj.UV[U2].y},
+		{FontObj.UV[U3].x, FontObj.UV[U3].y}
+	};
+
+	{
+		unsigned int location = GET_SHADER->GetLocation("Model", PROGRAM_FONT);
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(result));
+	}
+
+	{
+		glBindVertexArray(VAO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
+
+		glBufferData(GL_ARRAY_BUFFER, sizeof(POS), POS, GL_STATIC_DRAW);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(0);
+
+		glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(TEX), TEX, GL_STATIC_DRAW);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(1);
+	}
+
+	{
+		glActiveTexture(GL_TEXTURE);
+		glBindTexture(GL_TEXTURE_2D, Texture);
+	}
+
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
 GLuint FONT::loadBMP(const char* imagepath) {
@@ -138,4 +187,10 @@ GLuint FONT::loadBMP(const char* imagepath) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
 	return textureID;
+}
+
+void  FONT::FontOut() {
+	TransFont.x += 100;
+	TransFont.y += 100;
+	TransFont.z += 100;
 }

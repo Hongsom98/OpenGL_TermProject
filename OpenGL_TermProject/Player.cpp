@@ -9,7 +9,7 @@ void PLAYER::Load() {
 	
 	Texture = loadBMP("bitmap_player.bmp");
 
-	Location = glm::vec2(0, 0);
+	Location = glm::vec2(0, 0);	
 
 
 	result = glm::mat4(1.0f);
@@ -75,13 +75,13 @@ void PLAYER::ReadObj() {
 		PlayerObj.Vertex = NULL;
 		PlayerObj.Face = NULL;
 		PlayerObj.UV = NULL;
-		PlayerObj.UVDate = NULL;
+		PlayerObj.UVData = NULL;
 	}
 
 	PlayerObj.Vertex = vertex;
 	PlayerObj.Face = face;
 	PlayerObj.UV = uv;
-	PlayerObj.UVDate = uvdata;
+	PlayerObj.UVData = uvdata;
 
 	PlayerObj.VertexIndex = vertIndex;
 	PlayerObj.FaceIndex = faceIndex;
@@ -143,7 +143,7 @@ void PLAYER::Render() {
 	GET_CAMERA->SetViewTransform(PROGRAM_PLAYER);
 	
 	for (int i = 0; i < PlayerObj.FaceIndex; ++i)
-		DrawCube(PlayerObj.Face[i].x - 1, PlayerObj.Face[i].y - 1, PlayerObj.Face[i].z - 1, PlayerObj.UVDate[i].x - 1, PlayerObj.UVDate[i].y - 1, PlayerObj.UVDate[i].z - 1);
+		DrawCube(PlayerObj.Face[i].x - 1, PlayerObj.Face[i].y - 1, PlayerObj.Face[i].z - 1, PlayerObj.UVData[i].x - 1, PlayerObj.UVData[i].y - 1, PlayerObj.UVData[i].z - 1);
 }
 
 void PLAYER::DrawCube(int V1, int V2, int V3, int U1, int U2, int U3) {
@@ -208,7 +208,7 @@ void PLAYER::PlayerMoveX(float v)
 			//TransInfo.z -= 0.0031;
 
 			RadStack = 0;
-			GET_LIGHT->TransLight('w');
+			GET_LIGHT->TransLight('w');	
 		}
 	}
 	else //keyboard S
@@ -292,6 +292,7 @@ void PLAYER::HandleEvents(unsigned char key, bool press) {
 					if (PlayerState == STAY) {
 						PlayerState = MOVEFORWARD;
 						TargetRotate[0] = -90;
+						GET_SOUND->Effect();
 					}
 				}
 				break;

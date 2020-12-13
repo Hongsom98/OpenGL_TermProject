@@ -18,7 +18,8 @@
 #include "Tile.h"
 #include "BackGround.h"
 #include "SceneManager.h"
-
+#include "Font.h"
+#include "Sound.h"
 
 #include "GameManager.h"
 #pragma comment(lib, "freeglut.lib")

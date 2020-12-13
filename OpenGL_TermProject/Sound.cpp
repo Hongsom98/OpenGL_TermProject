@@ -1,84 +1,47 @@
 #pragma once
 #include "Sound.h"
 
-CFmodSound::CFmodSound(void)
+
+void SOUND::Effect(void)
 {
-	FMOD_System_Create(&m_pSystem);
-	FMOD_System_Init(m_pSystem, 32, FMOD_INIT_NORMAL, NULL);
-}
+	IGraphBuilder* pGraph = NULL;
+	IMediaControl* pControl = NULL;
+	IMediaEvent* pEvent = NULL;
 
-
-CFmodSound::~CFmodSound(void)
-{
-	FMOD_System_Close(m_pSystem);
-	FMOD_System_Release(m_pSystem);
-}
-
-
-void CFmodSound::CreateBGSound(int nCount, std::string* SoundFileName)
-{
-	// 효과 사운드 생성
-	m_nBGSoundCount = nCount;
-	m_ppBGSound = new FMOD_SOUND * [nCount];
-	m_ppBGChannel = new FMOD_CHANNEL * [nCount];
-
-	for (int i = 0; i < nCount; i++)
-		FMOD_System_CreateSound(m_pSystem, SoundFileName[i].data(), FMOD_LOOP_NORMAL, 0, &m_ppBGSound[i]);
-}
-
-
-
-void CFmodSound::CreateEffectSound(int nCount, std::string* SoundFileName)
-{
-	// 백 그라운드 사운드 생성
-	m_nEFSoundCount = nCount;
-	m_ppEFFSound = new FMOD_SOUND * [nCount];
-
-	for (int i = 0; i < nCount; i++)
-		FMOD_System_CreateSound(m_pSystem, SoundFileName[i].data(), FMOD_DEFAULT, 0, &m_ppEFFSound[i]);
-}
-
-void CFmodSound::PlaySoundEffect(int nIndex)
-{
-	if (nIndex < m_nEFSoundCount)
+	
+	HRESULT hr = CoInitialize(NULL);
+	if (FAILED(hr))
 	{
-		FMOD_CHANNEL* pChannel;
-		FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, m_ppEFFSound[nIndex], 0, &pChannel);
+		printf("ERROR - Could not initialize COM library");
+		return;
 	}
-}
 
-void CFmodSound::PlaySoundBG(int nIndex)
-{
-	if (nIndex < m_nBGSoundCount)
+	hr = CoCreateInstance(CLSID_FilterGraph, NULL, CLSCTX_INPROC_SERVER,
+		IID_IGraphBuilder, (void**)&pGraph);
+	if (FAILED(hr))
 	{
-		FMOD_System_PlaySound(m_pSystem, FMOD_CHANNEL_FREE, m_ppBGSound[nIndex], 0, &m_ppBGChannel[nIndex]);
+		printf("ERROR - Could not create the Filter Graph Manager.");
+		return;
 	}
-}
 
-void CFmodSound::StopSoundBG(int nIndex)
-{
-	if (nIndex < m_nBGSoundCount)
+	hr = pGraph->QueryInterface(IID_IMediaControl, (void**)&pControl);
+	hr = pGraph->QueryInterface(IID_IMediaEvent, (void**)&pEvent);
+
+
+	hr = pGraph->RenderFile(L"play_fire.wav", NULL);
+
+	if (SUCCEEDED(hr))
 	{
-		FMOD_Channel_Stop(m_ppBGChannel[nIndex]);
+		hr = pControl->Run();
+		if (SUCCEEDED(hr))
+		{
+			long evCode;
+			//	pEvent->WaitForCompletion(INFINITE, &evCode);
+			//	소리가 끝난 뒤 애니메이션 재생
+		}
 	}
-}
-
-void CFmodSound::ReleaseSound()
-{
-	int i;
-
-	delete[] m_ppBGChannel;
-
-	for (i = 0; i < m_nBGSoundCount; i++)
-		FMOD_Sound_Release(m_ppBGSound[i]);
-	delete[] m_ppBGSound;
-	for (i = 0; i < m_nEFSoundCount; i++)
-		FMOD_Sound_Release(m_ppEFFSound[i]);
-	delete[] m_ppEFFSound;
-}
-
-void CFmodSound::Update()
-{
-	if (!m_pSystem)
-		FMOD_System_Update(m_pSystem);
+	pControl->Release();
+	//pEvent->Release();
+	pGraph->Release();
+	CoUninitialize();
 }

@@ -69,6 +69,7 @@ void SCENEGAME::Render()
 {
 	GET_PLAYER->Render();
 	GET_TILE->Render();
+	GET_FONT->Render();
 }
 
 void SCENEGAME::SwitchStage() {

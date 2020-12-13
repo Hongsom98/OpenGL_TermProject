@@ -1,33 +1,25 @@
 #pragma once
 #include <iostream>
-#include <string>
-#include <io.h>
-#include "fmod.h"
-#include "fmod.hpp"
-#include "fmod_dsp.h"
-#include "fmod_errors.h"
-#pragma comment (lib, "fmodex_vc.lib")
-#pragma comment (lib, "fmodex64_vc.lib")
+#include <dshow.h>
+#include <Windows.h>
+#pragma comment (lib, "strmiids.lib")
+#define GET_SOUND SOUND::Instance()
 
-class CFmodSound
+class SOUND
 {
+
 private:
-	FMOD_SYSTEM* m_pSystem;
-	FMOD_SOUND** m_ppBGSound;
-	FMOD_SOUND** m_ppEFFSound;
-	FMOD_CHANNEL** m_ppBGChannel;
-	int m_nEFSoundCount;
-	int m_nBGSoundCount;
+	
 public:
-	void CreateEffectSound(int nCount, std::string* SoundFileName);
-	void CreateBGSound(int nCount, std::string* SoundFileName);
-	void PlaySoundEffect(int nIndex);
-	void PlaySoundBG(int nIndex);
-	void StopSoundBG(int nIndex);
-	void ReleaseSound();
-	void Update();
+	void Effect();
+	
 
 public:
-	CFmodSound(void);
-	~CFmodSound(void);
+	static SOUND* Instance() {
+		static SOUND* PlayeRInstance = nullptr;
+		if (PlayeRInstance == nullptr)
+			PlayeRInstance = new SOUND;
+
+		return PlayeRInstance;
+	}
 };

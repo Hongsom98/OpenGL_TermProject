@@ -3,6 +3,7 @@
 SCENEMENU::SCENEMENU()
 {
 	std::cout << "Scene Menu" << std::endl;
+	
 }
 
 SCENEMENU::~SCENEMENU()
@@ -21,6 +22,7 @@ void SCENEMENU::HandleEvents(unsigned char key, bool press)
 		switch (key) {
 			case VK_RETURN:
 				GET_SCENEMANAGER->SwitchScene(SCENEMANAGER::e_SceneType::Game);
+				GET_FONT->FontOut();
 				break;
 			case VK_ESCAPE:
 				glutLeaveMainLoop();
@@ -63,5 +65,5 @@ void SCENEMENU::Update()
 
 void SCENEMENU::Render()
 {
-
+	GET_FONT->Render();
 }

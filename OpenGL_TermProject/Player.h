@@ -12,7 +12,7 @@ enum CUBESTATE { STAY, MOVEFORWARD, MOVEBACK, MOVELEFT, MOVERIGHT};
 struct CUBE {
 	glm::vec3* Vertex = NULL;
 	glm::vec3* Face = NULL;
-	glm::vec3* UVDate = NULL;
+	glm::vec3* UVData = NULL;
 	glm::vec2* UV = NULL;
 	int VertexIndex = 0;
 	int FaceIndex = 0;
