@@ -16,6 +16,7 @@ struct BNODE {
 	glm::vec3 translate;
 	float MoveSpeed;
 	int MoveCnt;
+	int MoveChange;
 	BNODE* next = NULL;
 };
 

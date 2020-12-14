@@ -24,7 +24,8 @@ void BACKGROUND::Load(float* translate) {
 
 	std::random_device rd;
 	std::mt19937_64 rnd(rd());
-	std::uniform_real_distribution<float> uid(-0.05, 0.05);
+	std::uniform_real_distribution<float> uid(-0.07, 0.07);
+	std::uniform_int_distribution<int> iuid(20, 30);
 
 	BNODE* NewNode = new BNODE;
 	NewNode->translate.x = translate[0];
@@ -32,6 +33,7 @@ void BACKGROUND::Load(float* translate) {
 	NewNode->translate.z = translate[2];
 	NewNode->MoveSpeed = uid(rnd);
 	NewNode->MoveCnt = 0;
+	NewNode->MoveChange = iuid(rnd);
 
 	if (BGList == NULL) {
 		BGList = NewNode;
@@ -166,7 +168,8 @@ void BACKGROUND::Update() {
 		UpdateNode->translate.y += UpdateNode->MoveSpeed;
 		UpdateNode->MoveCnt++;
 
-		if (UpdateNode->MoveCnt % 30 == 0) UpdateNode->MoveSpeed *= -1;
+
+		if (UpdateNode->MoveCnt % UpdateNode->MoveChange == 0) UpdateNode->MoveSpeed *= -1;
 
 		UpdateNode = UpdateNode->next;
 	}
