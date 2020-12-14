@@ -11,15 +11,17 @@ class SOUND
 private:
 	
 public:
-	void Effect();
+	void PlayerEffect();
+	void PlayerVictory();
+	void PlayerDeath();
 	
 
 public:
 	static SOUND* Instance() {
-		static SOUND* PlayeRInstance = nullptr;
-		if (PlayeRInstance == nullptr)
-			PlayeRInstance = new SOUND;
+		static SOUND* SoundInstance = nullptr;
+		if (SoundInstance == nullptr)
+			SoundInstance = new SOUND;
 
-		return PlayeRInstance;
+		return SoundInstance;
 	}
 };

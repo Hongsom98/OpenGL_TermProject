@@ -292,7 +292,7 @@ void PLAYER::HandleEvents(unsigned char key, bool press) {
 					if (PlayerState == STAY) {
 						PlayerState = MOVEFORWARD;
 						TargetRotate[0] = -90;
-						GET_SOUND->Effect();
+						GET_SOUND->PlayerEffect();
 					}
 				}
 				break;
@@ -301,6 +301,7 @@ void PLAYER::HandleEvents(unsigned char key, bool press) {
 					if (PlayerState == STAY) {
 						PlayerState = MOVEBACK;
 						TargetRotate[0] = 90;
+						GET_SOUND->PlayerEffect();
 					}
 				}
 				break;
@@ -309,6 +310,7 @@ void PLAYER::HandleEvents(unsigned char key, bool press) {
 					if (PlayerState == STAY) {
 						PlayerState = MOVELEFT;
 						TargetRotate[1] = 90;
+						GET_SOUND->PlayerEffect();
 					}
 				}
 				break;
@@ -317,6 +319,7 @@ void PLAYER::HandleEvents(unsigned char key, bool press) {
 					if (PlayerState == STAY) {
 						PlayerState = MOVERIGHT;
 						TargetRotate[1] = -90;
+						GET_SOUND->PlayerEffect();
 					}
 				}
 				break;

@@ -78,7 +78,7 @@ void SCENEGAME::SwitchStage() {
 		TileGen("stage_test2.txt");
 		break;
 	case 2:
-
+		GET_SOUND->PlayerVictory();
 		break;
 	default:
 		break;

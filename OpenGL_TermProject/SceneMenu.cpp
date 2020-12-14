@@ -28,6 +28,7 @@ void SCENEMENU::HandleEvents(unsigned char key, bool press)
 				glutLeaveMainLoop();
 				break;
 			case 'w':
+				GET_FONT->RotateRadian();
 				break;
 			case 's':
 				break;

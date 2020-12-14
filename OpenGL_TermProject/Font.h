@@ -33,7 +33,7 @@ public:
 	void	Render();
 	void	Draw(int V1, int V2, int V3, int U1, int U2, int U3);
 	void	FontOut();
-	void Update();
+	void	RotateRadian();
 private:
 	Font FontObj;
 	GLuint	VAO, VBO[2];
@@ -41,6 +41,7 @@ private:
 	glm::vec3 TransInfo;
 	glm::mat4 result;
 	glm::vec3 TransFont;
+	float Radian;
 public:
 	static FONT* Instance() {
 		static FONT* FontInstance= nullptr;

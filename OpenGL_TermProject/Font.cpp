@@ -14,15 +14,15 @@ void FONT::Load() {
 	result = glm::mat4(1.0f);
 	TransInfo = glm::vec3(0.f);
 	TransFont = glm::vec3(0.f);
+	Radian = 0;
 }
 
 void FONT::Render() {
 	GET_SHADER->Activate(PROGRAM_FONT);
-	//GET_CAMERA->SetProjectionTransform(PROGRAM_FONT);
-	//GET_CAMERA->SetViewTransform(PROGRAM_FONT);
-
 	
-	result = glm::translate(glm::mat4(1.0f),TransFont) * glm::rotate(glm::mat4(1.0f), glm::radians(-90.f), glm::vec3(0, 0, 1)) * glm::scale(glm::mat4(1.0f),glm::vec3(0.7f,0.7f,0.7f));
+	Radian += 1;
+	if (Radian == 360) Radian = 0;
+	result = glm::translate(glm::mat4(1.0f),TransFont) * glm::rotate(glm::mat4(1.0f), glm::radians(Radian), glm::vec3(0, 1, 0)) * glm::rotate(glm::mat4(1.0f), glm::radians(-90.f), glm::vec3(0, 0, 1)) * glm::scale(glm::mat4(1.0f),glm::vec3(0.7f,0.7f,0.7f));
 	for (int i = 0; i < FontObj.FaceIndex; ++i)
 		Draw(FontObj.Face[i].x - 1, FontObj.Face[i].y - 1, FontObj.Face[i].z - 1, FontObj.UVData[i].x - 1, FontObj.UVData[i].y - 1, FontObj.UVData[i].z - 1);
 	
@@ -98,8 +98,9 @@ void FONT::ReadObj() {
 	fclose(path);
 }
 
-void FONT::Update() {
-
+void FONT::RotateRadian() 
+{
+	Radian += 90;
 
 }
 
