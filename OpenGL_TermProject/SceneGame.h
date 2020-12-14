@@ -16,7 +16,7 @@ public:
 	void HandleEvents(int button, int state, int x, int y);
 	void Update();
 	void Render();
-
+	const int GetStageNum();
 	void SwitchStage();
 	void TileGen(const char* StagePath);
 	void BackGroundGen(const char* BackGroundPath);

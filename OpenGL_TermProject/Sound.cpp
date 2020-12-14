@@ -81,9 +81,10 @@ void SOUND::PlayerVictory()
 		{
 			long evCode;
 				//pEvent->WaitForCompletion(INFINITE, &evCode);
-			//	家府啊 场抄 第 局聪皋捞记 犁积
+				//	家府啊 场抄 第 局聪皋捞记 犁积
 		}
 	}
+	
 	pControl->Release();
 	//pEvent->Release();
 	pGraph->Release();
@@ -92,12 +93,7 @@ void SOUND::PlayerVictory()
 
 void SOUND::PlayerDeath()
 {
-	IGraphBuilder* pGraph = NULL;
-	IMediaControl* pControl = NULL;
-	IMediaEvent* pEvent = NULL;
-
-
-	HRESULT hr = CoInitialize(NULL);
+	
 	if (FAILED(hr))
 	{
 		printf("ERROR - Could not initialize COM library");
@@ -117,19 +113,37 @@ void SOUND::PlayerDeath()
 
 
 	//hr = pGraph->RenderFile(L"play_fire.wav", NULL);
-	hr = pGraph->RenderFile(L"Effect1.mp3", NULL);
+	hr = pGraph->RenderFile(L"story.mp3", NULL);
 	if (SUCCEEDED(hr))
 	{
 		hr = pControl->Run();
+		
 		if (SUCCEEDED(hr))
 		{
 			long evCode;
 			//	pEvent->WaitForCompletion(INFINITE, &evCode);
 			//	家府啊 场抄 第 局聪皋捞记 犁积
 		}
+		if (Restart)
+		{
+			hr = pControl->Stop();
+			//hr = pControl->Run();
+			Restart = false;
+		}
 	}
 	pControl->Release();
 	//pEvent->Release();
 	pGraph->Release();
 	CoUninitialize();
+}
+
+void SOUND::RestartSound(bool isTrue)
+{
+	Restart = isTrue;
+	hr = pControl->Stop();
+	pControl->Release();
+	PlayerDeath();
+	//PlayerDeath();
+	// return isTrue ? true: false;
+	
 }

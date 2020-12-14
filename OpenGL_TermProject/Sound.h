@@ -9,12 +9,19 @@ class SOUND
 {
 
 private:
-	
+	bool Restart{ false };
+
+	IGraphBuilder* pGraph = NULL;
+	IMediaControl* pControl = NULL;
+	IMediaEvent* pEvent = NULL;
+
+	HRESULT hr = CoInitialize(NULL);
+
 public:
 	void PlayerEffect();
 	void PlayerVictory();
 	void PlayerDeath();
-	
+	void RestartSound(bool isTrue);
 
 public:
 	static SOUND* Instance() {

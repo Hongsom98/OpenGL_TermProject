@@ -23,6 +23,7 @@ void SCENEMENU::HandleEvents(unsigned char key, bool press)
 			case VK_RETURN:
 				GET_SCENEMANAGER->SwitchScene(SCENEMANAGER::e_SceneType::Game);
 				GET_FONT->FontOut();
+				GET_SOUND->PlayerDeath();
 				break;
 			case VK_ESCAPE:
 				glutLeaveMainLoop();
@@ -67,4 +68,5 @@ void SCENEMENU::Update()
 void SCENEMENU::Render()
 {
 	GET_FONT->Render();
+	
 }

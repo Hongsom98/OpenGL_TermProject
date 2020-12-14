@@ -44,7 +44,12 @@ void SCENEGAME::HandleEvents(int key, bool press)
 
 void SCENEGAME::HandleEvents(int button, int state, int x, int y)
 {
-
+	float MouseXPos, MouseYPos;
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
+	{
+		MouseXPos = (float)x / 400 - 1; MouseYPos = ((float)y / 400 - 1) * -1;
+		//if(GET_FONT)
+	}
 }
 
 void SCENEGAME::Update()
@@ -71,18 +76,23 @@ void SCENEGAME::Render()
 
 void SCENEGAME::SwitchStage() {
 	switch (StageNum) {
+	case 0:
+		GET_SOUND->RestartSound(false);
 	case 1:
 		GET_TILE->ClearList();
 		GET_PLAYER->Load();
 		GET_BG->ChangeCol();
 		TileGen("stage_test2.txt");
+		GET_SOUND->RestartSound(false);
 		break;
 	case 2:
+		GET_SOUND->RestartSound(true);
 		GET_SOUND->PlayerVictory();
 		break;
 	default:
 		break;
 	}
+	
 }
 
 void SCENEGAME::TileGen(const char* StagePath) {
@@ -114,4 +124,8 @@ void SCENEGAME::BackGroundGen(const char* StagePath) {
 
 
 	fclose(file);
+}
+
+const int SCENEGAME::GetStageNum() {
+	return StageNum;
 }

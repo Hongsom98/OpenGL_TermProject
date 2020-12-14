@@ -6,10 +6,10 @@
 #define TOTALFONT 4
 
 enum {
-	FONT_UI,
 	FONT_START,
-	FONT_QUIT,
-	FONT_VOLUME
+	FONT_RESTART,
+	FONT_RESUME,
+	FONT_
 };
 
 struct Font {
