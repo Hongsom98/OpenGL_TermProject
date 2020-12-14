@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="BackGround.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="GLUTmain.cpp" />
     <ClCompile Include="Light.cpp" />
@@ -161,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="BackGround.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Font.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="iScene.h" />

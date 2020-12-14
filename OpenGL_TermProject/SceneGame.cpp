@@ -63,6 +63,7 @@ void SCENEGAME::Render()
 {
 	GET_PLAYER->Render();
 	GET_TILE->Render();
+	GET_FONT->Render();
 
 	//투명한 객체는 제일 마지막에 랜더링
 	GET_BG->Render();
