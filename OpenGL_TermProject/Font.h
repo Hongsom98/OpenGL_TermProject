@@ -9,7 +9,8 @@ enum {
 	FONT_START,
 	FONT_RESTART,
 	FONT_RESUME,
-	FONT_PAUSE
+	FONT_PAUSE,
+	FONT_VICTORY
 };
 
 struct Font {
@@ -32,11 +33,13 @@ public:
 	void	Render();
 	void	RenderUI();
 	void	RenderUIPause();
+	void	RenderVictory();
 	void	Draw(int V1, int V2, int V3, int U1, int U2, int U3);
 	void	DrawFont(int V1, int V2, int V3, int U1, int U2, int U3, glm::mat4,int eNum);
 	void	FontOut();
 	void	FontIn();
 	void	FontPause();
+	void	FontVictory();
 	void	RotateRadian();
 
 private:
@@ -47,6 +50,7 @@ private:
 	GLuint	TextureUiPause;
 	GLuint	TextureUiRestart;
 	GLuint	TextureUiResume;
+	GLuint	TextureUiVictory;
 	glm::vec3 TransInfo;
 	glm::mat4 result;
 	glm::mat4 result1;

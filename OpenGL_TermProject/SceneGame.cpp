@@ -200,6 +200,8 @@ void SCENEGAME::SwitchStage() {
 			GET_SOUND->RestartSound(false);
 			break;
 		case 8:
+			GET_FONT->Status = FONT_VICTORY;
+			GET_FONT->FontVictory();
 			GET_SOUND->PlayerVictory();
 			break;
 		default:
