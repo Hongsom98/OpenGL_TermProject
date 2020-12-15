@@ -54,6 +54,11 @@ int main(int argc, char** argv) {
 	glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
 	glutCreateWindow("SoloveCube");
 
+	HWND hWndConsole = GetConsoleWindow();
+	ShowWindow(hWndConsole, SW_HIDE);
+
+
+
 	glewExperimental = GL_TRUE;
 
 	if (glewInit() != GLEW_OK) {
