@@ -36,6 +36,38 @@ void SCENEGAME::HandleEvents(unsigned char key, bool press)
 		case 'd':
 			GET_PLAYER->HandleEvents(key, press);
 			break;
+		case '1':
+			StageNum = 0;
+			SwitchStage();
+			break;
+		case '2':
+			StageNum = 1;
+			SwitchStage();
+			break;
+		case '3':
+			StageNum = 2;
+			SwitchStage();
+			break;
+		case '4':
+			StageNum = 3;
+			SwitchStage();
+			break;
+		case '5':
+			StageNum = 4;
+			SwitchStage();
+			break;
+		case '6':
+			StageNum = 5;
+			SwitchStage();
+			break;
+		case '7':
+			StageNum = 6;
+			SwitchStage();
+			break;
+		case '8':
+			StageNum = 7;
+			SwitchStage();
+			break;
 		}
 }
 
@@ -126,7 +158,48 @@ void SCENEGAME::SwitchStage() {
 			GET_SOUND->RestartSound(false);
 			break;
 		case 2:
-			GET_SOUND->RestartSound(true);
+			GET_TILE->ClearList();
+			GET_PLAYER->Load();
+			GET_BG->ChangeCol();
+			TileGen("stage_test3.txt");
+			GET_SOUND->RestartSound(false);
+			break;
+		case 3:
+			GET_TILE->ClearList();
+			GET_PLAYER->Load();
+			GET_BG->ChangeCol();
+			TileGen("stage_test4.txt");
+			GET_SOUND->RestartSound(false);
+			break;
+		case 4:
+			GET_TILE->ClearList();
+			GET_PLAYER->Load();
+			GET_BG->ChangeCol();
+			TileGen("stage_test5.txt");
+			GET_SOUND->RestartSound(false);
+			break;
+		case 5:
+			GET_TILE->ClearList();
+			GET_PLAYER->Load();
+			GET_BG->ChangeCol();
+			TileGen("stage_test6.txt");
+			GET_SOUND->RestartSound(false);
+			break;
+		case 6:
+			GET_TILE->ClearList();
+			GET_PLAYER->Load();
+			GET_BG->ChangeCol();
+			TileGen("stage_test7.txt");
+			GET_SOUND->RestartSound(false);
+			break;
+		case 7:
+			GET_TILE->ClearList();
+			GET_PLAYER->Load();
+			GET_BG->ChangeCol();
+			TileGen("stage_test8.txt");
+			GET_SOUND->RestartSound(false);
+			break;
+		case 8:
 			GET_SOUND->PlayerVictory();
 			break;
 		default:

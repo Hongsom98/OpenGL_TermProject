@@ -27,9 +27,8 @@ void SOUND::PlayerEffect(void)
 	hr = pGraph->QueryInterface(IID_IMediaControl, (void**)&pControl);
 	hr = pGraph->QueryInterface(IID_IMediaEvent, (void**)&pEvent);
 
-
 	//hr = pGraph->RenderFile(L"play_fire.wav", NULL);
-	hr = pGraph->RenderFile(L"Effect1.mp3", NULL);
+	hr = pGraph->RenderFile(L"9.wav", NULL);
 	if (SUCCEEDED(hr))
 	{
 		hr = pControl->Run();
@@ -113,7 +112,7 @@ void SOUND::PlayerDeath()
 
 
 	//hr = pGraph->RenderFile(L"play_fire.wav", NULL);
-	hr = pGraph->RenderFile(L"story.mp3", NULL);
+	hr = pGraph->RenderFile(L"BGM.mp3", NULL);
 	if (SUCCEEDED(hr))
 	{
 		hr = pControl->Run();
