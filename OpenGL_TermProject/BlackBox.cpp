@@ -1,6 +1,5 @@
 #include "BlackBox.h"
 
-
 BLACKBOX::BLACKBOX() {
 	ReadObj();
 
@@ -9,6 +8,7 @@ BLACKBOX::BLACKBOX() {
 	glGenBuffers(2, VBO);
 
 	alpha = 0.0;
+	BB_OnOff = false;
 }
 
 void BLACKBOX::ReadObj() {
@@ -57,7 +57,18 @@ void BLACKBOX::ReadObj() {
 }
 
 void BLACKBOX::Update() {
-
+	if (BB_OnOff) {
+		alpha += DELTATIME * 0.02;
+		if (alpha >= 1.0) {
+			alpha = 1.0;
+			BB_OnOff = false;
+		}
+	}
+	else {
+		if (alpha <= 0) return;
+		alpha -= DELTATIME * 0.01;
+		if (alpha <= 0) alpha = 0.0;
+	}
 }
 
 void BLACKBOX::Render() {
@@ -78,11 +89,11 @@ void BLACKBOX::DrawCube(int V1, int V2, int V3) {
 		{Vertex[V2].x, Vertex[V2].y, Vertex[V2].z},
 		{Vertex[V3].x, Vertex[V3].y, Vertex[V3].z}
 	};
-	/*GLfloat COL[3][3] = {
-		{},
-		{},
-		{}
-	};*/
+	GLfloat COL[3][3] = {
+		{0, 0, 0},
+		{0, 0, 0},
+		{0, 0, 0}
+	};
 
 	{
 		glm::mat4 scaling(1.0f);
@@ -94,7 +105,7 @@ void BLACKBOX::DrawCube(int V1, int V2, int V3) {
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(result));
 	}
 
-	/*{
+	{
 		glBindVertexArray(VAO);
 		glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
 
@@ -106,7 +117,7 @@ void BLACKBOX::DrawCube(int V1, int V2, int V3) {
 		glBufferData(GL_ARRAY_BUFFER, sizeof(COL), COL, GL_STATIC_DRAW);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
 		glEnableVertexAttribArray(1);
-	}*/
+	}
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
@@ -114,4 +125,12 @@ void BLACKBOX::DrawCube(int V1, int V2, int V3) {
 void BLACKBOX::SetAlpha() {
 	unsigned int location = GET_SHADER->GetLocation("Alpha", PROGRAM_BLACKBOX);
 	glUniform1f(location, alpha);
+}
+
+void BLACKBOX::BB_ON() {
+	BB_OnOff = true;
+}
+
+float BLACKBOX::GetAlpha() {
+	return alpha;
 }

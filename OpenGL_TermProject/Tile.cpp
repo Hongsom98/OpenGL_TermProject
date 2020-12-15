@@ -259,7 +259,7 @@ bool TILE::Update() {
 			if (SearchNode->Location == GET_PLAYER->GetLoc() && SearchNode->TexIndex == GET_PLAYER->GetCol() + 1) {
 				SearchNode->TexIndex = 0;
 				SpecialTileCnt--;
-				if (SpecialTileCnt == 0) return true;
+				if (SpecialTileCnt == 0) GET_BB->BB_ON();
 			}
 		}
 		SearchNode = SearchNode->next;

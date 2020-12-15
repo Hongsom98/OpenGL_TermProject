@@ -20,6 +20,7 @@
 #include "Font.h"
 #include "Sound.h"
 #include "Particle.h"
+#include "BlackBox.h"
 #include "SceneManager.h"
 
 #include "GameManager.h"

@@ -78,15 +78,16 @@ void SCENEGAME::HandleEvents(int button, int state, int x, int y)
 void SCENEGAME::Update()
 {
 	GET_PLAYER->Update();
-	if (GET_TILE->Update()) {
-		StageNum++;
-		std::cout << StageNum << std::endl;
-		SwitchStage();
-	}
+	GET_TILE->Update();
 	if (!GET_PC->NoParticle()) GET_PC->Update();
 
 
 	GET_BG->Update();
+	GET_BB->Update();
+	if (GET_BB->GetAlpha() == 1.0) {
+		StageNum++;
+		SwitchStage();
+	}
 }
 
 void SCENEGAME::Render()
@@ -103,6 +104,7 @@ void SCENEGAME::Render()
 
 	//투명한 객체는 제일 마지막에 랜더링
 	GET_BG->Render();
+	GET_BB->Render();
 }
 
 void SCENEGAME::SwitchStage() {
@@ -166,4 +168,8 @@ void SCENEGAME::BackGroundGen(const char* StagePath) {
 
 const int SCENEGAME::GetStageNum() {
 	return StageNum;
+}
+
+void SCENEGAME::SetStageNum(int nextstage) {
+	StageNum = nextstage;
 }

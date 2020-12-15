@@ -17,6 +17,9 @@ public:
 
 	void SetAlpha();
 
+	void BB_ON();
+
+	float GetAlpha();
 private:
 	glm::vec3* Vertex;
 	int VertexIndex;
@@ -25,6 +28,8 @@ private:
 
 	float alpha;
 	GLuint VAO, VBO[2];
+
+	bool BB_OnOff;
 public:
 	static BLACKBOX* Instance() {
 		static BLACKBOX* BlackBoxInstance = nullptr;

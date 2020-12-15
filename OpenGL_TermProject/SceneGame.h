@@ -20,4 +20,5 @@ public:
 	void SwitchStage();
 	void TileGen(const char* StagePath);
 	void BackGroundGen(const char* BackGroundPath);
+	void SetStageNum(int nextstage);
 };
