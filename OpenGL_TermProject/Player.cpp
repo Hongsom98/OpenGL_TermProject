@@ -426,3 +426,7 @@ int PLAYER::GetCol() {
 	for (int i = 0; i < 6; ++i)
 		if (FaceCol[i] == YMINUS) return i;
 }
+
+int PLAYER::GetState() {
+	return PlayerState;
+}

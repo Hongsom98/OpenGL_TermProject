@@ -38,6 +38,8 @@ public:
 
 	glm::vec2& GetLoc();
 
+	int GetState();
+
 	void ChangeCol(int MoveDir);
 	int GetCol();
 	glm::vec2 Location;

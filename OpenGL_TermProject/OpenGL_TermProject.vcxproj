@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BackGround.cpp" />
+    <ClCompile Include="BlackBox.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Font.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -162,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BackGround.h" />
+    <ClInclude Include="BlackBox.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Font.h" />
     <ClInclude Include="GameManager.h" />
