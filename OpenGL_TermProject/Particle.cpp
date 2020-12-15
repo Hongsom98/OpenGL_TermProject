@@ -165,6 +165,7 @@ void PARTICLE::Update() {
 }
 
 void PARTICLE::ClearList() {
+	if (PCList == NULL) return;
 	PNODE* DelNode = PCList;
 	PNODE* TempNode;
 	PCList = NULL;
