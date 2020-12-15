@@ -33,7 +33,7 @@ public:
 
 	void ReadObj();
 	GLuint loadBMP(const char* imagepath);
-
+	void TileInit();
 	void Render();
 	void DrawCube(int V1, int V2, int V3, int N1, int N2, int N3, int U1, int U2, int U3,
 				  glm::vec3 translate, GLuint TexIndex);

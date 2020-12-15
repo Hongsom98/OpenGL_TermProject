@@ -9,7 +9,7 @@ enum {
 	FONT_START,
 	FONT_RESTART,
 	FONT_RESUME,
-	FONT_
+	FONT_PAUSE
 };
 
 struct Font {
@@ -26,20 +26,30 @@ class FONT
 {
 public:
 	void	Load();
-
 	void	ReadObj();
 	GLuint	loadBMP(const char* imagepath);
-	
+	GLuint Status;
 	void	Render();
+	void	RenderUI();
+	void	RenderUIPause();
 	void	Draw(int V1, int V2, int V3, int U1, int U2, int U3);
+	void	DrawFont(int V1, int V2, int V3, int U1, int U2, int U3, glm::mat4,int eNum);
 	void	FontOut();
+	void	FontIn();
+	void	FontPause();
 	void	RotateRadian();
+
 private:
 	Font FontObj;
+	
 	GLuint	VAO, VBO[2];
 	GLuint	Texture;
+	GLuint	TextureUiPause;
+	GLuint	TextureUiRestart;
+	GLuint	TextureUiResume;
 	glm::vec3 TransInfo;
 	glm::mat4 result;
+	glm::mat4 result1;
 	glm::vec3 TransFont;
 	float Radian;
 public:

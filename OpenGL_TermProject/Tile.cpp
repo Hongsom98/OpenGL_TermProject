@@ -267,6 +267,10 @@ bool TILE::Update() {
 	return false;
 }
 
+void TILE::TileInit() {
+	SpecialTileCnt = 0;
+}
+
 bool TILE::NoTile(float x, float z) {
 	NODE* SearchNode = TileList;
 

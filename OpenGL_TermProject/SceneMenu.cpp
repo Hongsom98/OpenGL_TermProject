@@ -24,6 +24,8 @@ void SCENEMENU::HandleEvents(unsigned char key, bool press)
 				GET_SCENEMANAGER->SwitchScene(SCENEMANAGER::e_SceneType::Game);
 				GET_FONT->FontOut();
 				GET_SOUND->PlayerDeath();
+				GET_FONT->FontIn();
+				GET_FONT->Status = FONT_PAUSE;
 				break;
 			case VK_ESCAPE:
 				glutLeaveMainLoop();

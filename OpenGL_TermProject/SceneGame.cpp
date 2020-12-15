@@ -48,7 +48,26 @@ void SCENEGAME::HandleEvents(int button, int state, int x, int y)
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
 	{
 		MouseXPos = (float)x / 400 - 1; MouseYPos = ((float)y / 400 - 1) * -1;
-		//if(GET_FONT)
+		std::cout << MouseXPos << " " << MouseYPos << std::endl;
+		
+		if (((MouseXPos >= 0.7 && MouseYPos >= 0.7) && (MouseXPos <= 0.9 && MouseYPos <= 0.9)) && (GET_FONT->Status == FONT_PAUSE))
+		{
+			GET_FONT->Status = FONT_RESTART;
+			GET_FONT->FontPause();
+			//GET_FONT->RenderUIPause();
+		}
+		if (((MouseXPos >= -0.7 && MouseYPos >= 0.3) && (MouseXPos <= -0.3 && MouseYPos <= 0.7)) && (GET_FONT->Status == FONT_RESTART))
+		{
+			GET_FONT->FontIn();
+			GET_FONT->Status = FONT_PAUSE;
+		}
+		if (((MouseXPos >= 0.3 && MouseYPos >= 0.3) && (MouseXPos <= 0.7 && MouseYPos <= 0.7)) && (GET_FONT->Status == FONT_RESTART))
+		{
+			GET_FONT->FontIn();
+			GET_FONT->Status = FONT_PAUSE;
+			GET_TILE->TileInit();
+			SwitchStage();
+		}
 	}
 }
 
@@ -68,16 +87,26 @@ void SCENEGAME::Render()
 {
 	GET_PLAYER->Render();
 	GET_TILE->Render();
-	GET_FONT->Render();
-
+	
+	if(GET_FONT->Status == FONT_PAUSE)
+		GET_FONT->RenderUI();
+	if(GET_FONT->Status == FONT_RESTART)
+		GET_FONT->RenderUIPause();
 	//투명한 객체는 제일 마지막에 랜더링
 	GET_BG->Render();
 }
 
 void SCENEGAME::SwitchStage() {
+	std::cout << StageNum << std::endl;
 	switch (StageNum) {
+
 	case 0:
+		GET_TILE->ClearList();
+		GET_PLAYER->Load();
+		GET_BG->ChangeCol();
+		TileGen("stage_test.txt");
 		GET_SOUND->RestartSound(false);
+		break;
 	case 1:
 		GET_TILE->ClearList();
 		GET_PLAYER->Load();
