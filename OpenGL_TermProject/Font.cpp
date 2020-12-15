@@ -32,8 +32,9 @@ void FONT::Render() {
 void FONT::RenderVictory() {
 	GET_SHADER->Activate(PROGRAM_FONT);
 
-	if (TransFont.x <= 0) TransFont.x += 0.01f;
-	result = glm::translate(glm::mat4(1.0f), TransFont) * glm::rotate(glm::mat4(1.0f), glm::radians(Radian), glm::vec3(0, 1, 0)) * glm::rotate(glm::mat4(1.0f), glm::radians(-90.f), glm::vec3(0, 0, 1)) * glm::scale(glm::mat4(1.0f), glm::vec3(0.7f, 0.7f, 0.7f));
+	if (TransFont.y <= 0) TransFont.y += 0.01f;
+
+	result = glm::translate(glm::mat4(1.0f), TransFont) * glm::rotate(glm::mat4(1.0f), glm::radians(180.f), glm::vec3(0, 1, 0)) * glm::rotate(glm::mat4(1.0f), glm::radians(-90.f), glm::vec3(0, 0, 1)) * glm::scale(glm::mat4(1.0f), glm::vec3(0.7f, 0.7f, 0.7f));
 	for (int i = 0; i < FontObj.FaceIndex; ++i)
 		Draw(FontObj.Face[i].x - 1, FontObj.Face[i].y - 1, FontObj.Face[i].z - 1, FontObj.UVData[i].x - 1, FontObj.UVData[i].y - 1, FontObj.UVData[i].z - 1);
 
@@ -307,8 +308,8 @@ void  FONT::FontOut() {
 	TransFont.z += 100;
 }
 void  FONT::FontVictory() {
-	TransFont.x = -1;
-	TransFont.y = 0;
+	TransFont.x = 0;
+	TransFont.y = -1;
 	TransFont.z = 0;
 }
 void  FONT::FontIn() {

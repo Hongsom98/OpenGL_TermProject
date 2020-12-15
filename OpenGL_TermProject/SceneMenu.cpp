@@ -3,7 +3,7 @@
 SCENEMENU::SCENEMENU()
 {
 	std::cout << "Scene Menu" << std::endl;
-	
+
 }
 
 SCENEMENU::~SCENEMENU()
@@ -64,7 +64,7 @@ void SCENEMENU::HandleEvents(int button, int state, int x, int y)
 
 void SCENEMENU::Update()
 {
-	
+
 }
 
 void SCENEMENU::Render()

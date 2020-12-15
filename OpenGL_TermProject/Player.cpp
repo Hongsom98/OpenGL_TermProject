@@ -332,8 +332,8 @@ void PLAYER::Update() {
 			break;
 		case MOVEFORWARD:
 			if (TargetRotate[0] <= 0.f) {
-				PlayerMoveX(-5);
-				TargetRotate[0] += 5;
+				PlayerMoveX(-10);
+				TargetRotate[0] += 10;
 				if (TargetRotate[0] >= 0.f) {
 					PlayerState = STAY;
 					ChangeCol(MOVEFORWARD);
@@ -344,8 +344,8 @@ void PLAYER::Update() {
 			break;
 		case MOVEBACK:
 			if (0.f <= TargetRotate[0]) {
-				PlayerMoveX(5);
-				TargetRotate[0] -= 5;
+				PlayerMoveX(10);
+				TargetRotate[0] -= 10;
 				if(TargetRotate[0] <= 0.f) {
 					PlayerState = STAY;
 					ChangeCol(MOVEBACK);
@@ -356,8 +356,8 @@ void PLAYER::Update() {
 			break;
 		case MOVELEFT:
 			if (0.f <= TargetRotate[1]) {
-				PlayerMoveZ(5);
-				TargetRotate[1] -= 5;
+				PlayerMoveZ(10);
+				TargetRotate[1] -= 10;
 				if (TargetRotate[1] <= 0.f) {
 					PlayerState = STAY;
 					ChangeCol(MOVELEFT);
@@ -368,8 +368,8 @@ void PLAYER::Update() {
 			break;
 		case MOVERIGHT:
 			if (0.f >= TargetRotate[1]) {
-				PlayerMoveZ(-5);
-				TargetRotate[1] += 5;
+				PlayerMoveZ(-10);
+				TargetRotate[1] += 10;
 				if (TargetRotate[1] >= 0.f) {
 					PlayerState = STAY;
 					ChangeCol(MOVERIGHT);

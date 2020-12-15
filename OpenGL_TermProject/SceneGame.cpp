@@ -37,35 +37,48 @@ void SCENEGAME::HandleEvents(unsigned char key, bool press)
 			GET_PLAYER->HandleEvents(key, press);
 			break;
 		case '1':
+			GET_TILE->TileInit();
 			StageNum = 0;
 			SwitchStage();
 			break;
 		case '2':
+			GET_TILE->TileInit();
 			StageNum = 1;
 			SwitchStage();
 			break;
 		case '3':
+			GET_TILE->TileInit();
 			StageNum = 2;
 			SwitchStage();
 			break;
 		case '4':
+			GET_TILE->TileInit();
 			StageNum = 3;
 			SwitchStage();
 			break;
 		case '5':
+			GET_TILE->TileInit();
 			StageNum = 4;
 			SwitchStage();
 			break;
 		case '6':
+			GET_TILE->TileInit();
 			StageNum = 5;
 			SwitchStage();
 			break;
 		case '7':
+			GET_TILE->TileInit();
 			StageNum = 6;
 			SwitchStage();
 			break;
 		case '8':
+			GET_TILE->TileInit();
 			StageNum = 7;
+			SwitchStage();
+			break;
+		case '9':
+			GET_TILE->TileInit();
+			StageNum = 8;
 			SwitchStage();
 			break;
 		}
@@ -131,7 +144,8 @@ void SCENEGAME::Render()
 		GET_FONT->RenderUI();
 	if(GET_FONT->Status == FONT_RESTART)
 		GET_FONT->RenderUIPause();
-
+	if (GET_FONT->Status == FONT_VICTORY)
+		GET_FONT->RenderVictory();
 	if(!GET_PC->NoParticle()) GET_PC->Render();
 
 	//투명한 객체는 제일 마지막에 랜더링

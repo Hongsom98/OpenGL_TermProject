@@ -51,6 +51,8 @@ void TILE::ClearList() {
 		if (TempNode == NULL) break;
 		DelNode = TempNode;
 	}
+
+	//SpecialTileCnt = 0;
 }
 
 void TILE::ReadObj() {
