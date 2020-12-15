@@ -60,7 +60,9 @@ void SCENEGAME::Update()
 		std::cout << StageNum << std::endl;
 		SwitchStage();
 	}
-	
+	if (!GET_PC->NoParticle()) GET_PC->Update();
+
+
 	GET_BG->Update();
 }
 
@@ -69,12 +71,15 @@ void SCENEGAME::Render()
 	GET_PLAYER->Render();
 	GET_TILE->Render();
 	GET_FONT->Render();
+	if(!GET_PC->NoParticle()) GET_PC->Render();
 
 	//투명한 객체는 제일 마지막에 랜더링
 	GET_BG->Render();
 }
 
 void SCENEGAME::SwitchStage() {
+	GET_PC->ClearList();
+
 	switch (StageNum) {
 	case 0:
 		GET_SOUND->RestartSound(false);

@@ -338,6 +338,7 @@ void PLAYER::Update() {
 					PlayerState = STAY;
 					ChangeCol(MOVEFORWARD);
 					Location.y -= 2;
+					GET_PC->Load(Location.x, Location.y);
 				}
 			}
 			break;
@@ -349,6 +350,7 @@ void PLAYER::Update() {
 					PlayerState = STAY;
 					ChangeCol(MOVEBACK);
 					Location.y += 2;
+					GET_PC->Load(Location.x, Location.y);
 				}
 			}
 			break;
@@ -360,6 +362,7 @@ void PLAYER::Update() {
 					PlayerState = STAY;
 					ChangeCol(MOVELEFT);
 					Location.x -= 2;
+					GET_PC->Load(Location.x, Location.y);
 				}
 			}
 			break;
@@ -371,6 +374,7 @@ void PLAYER::Update() {
 					PlayerState = STAY;
 					ChangeCol(MOVERIGHT);
 					Location.x += 2;
+					GET_PC->Load(Location.x, Location.y);
 				}
 			}
 			break;

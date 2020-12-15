@@ -65,6 +65,9 @@ void SHADER::MakeVertexShader(int ProgramID) {
 	case PROGRAM_FONT:
 		vertexsource = filetobuf("Font.vert");
 		break;
+	case PROGRAM_PARTICLE:
+		vertexsource = filetobuf("Particle.vert");
+		break;
 	}
 
 	vertexshader = glCreateShader(GL_VERTEX_SHADER);
@@ -99,6 +102,9 @@ void SHADER::MakeFragmentShader(int ProgramID) {
 		break;
 	case PROGRAM_FONT:
 		fragmentsource = filetobuf("Font.frag");
+		break;
+	case PROGRAM_PARTICLE:
+		fragmentsource = filetobuf("Particle.frag");
 		break;
 	}
 
